@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaLinkedin } from 'react-icons/fa'
 
 const Contact = () => {
   return (
@@ -19,63 +20,35 @@ const Contact = () => {
                   href="mailto:hello@farmvizion.com"
                   className="text-green-600 hover:underline"
                 >
-                  hello@farmvizion.com
+                  developer@farmvizion.com
                 </a>
               </p>
             </div>
             <div>
               <h2 className="text-xl font-semibold">Address</h2>
               <p className="text-gray-700">
-                Hyderabad, Telangana<br />
-                India
+                Munich, Bavaria<br />
+                Germany
               </p>
             </div>
             <div>
               <h2 className="text-xl font-semibold">Follow Us</h2>
-              <p className="text-gray-700">
-                LinkedIn, Twitter (Add your links here if available)
-              </p>
+              <a
+                href="https://www.linkedin.com/company/farmvizion.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-blue-600 hover:text-blue-800 text-3xl mt-2"
+                aria-label="Farmvizion LinkedIn"
+              >
+                <FaLinkedin />
+              </a>
             </div>
           </div>
 
-          {/* Contact Form (optional logic can be added later) */}
-          <form className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Name
-              </label>
-              <input
-                type="text"
-                placeholder="Your name"
-                className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Message
-              </label>
-              <textarea
-                placeholder="Your message..."
-                className="w-full mt-1 px-4 py-2 border rounded-md h-32 resize-none focus:outline-none focus:ring-2 focus:ring-green-500"
-              ></textarea>
-            </div>
-            <button
-              type="submit"
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold transition"
-            >
-              Send Message
-            </button>
-          </form>
+          {/* Removed contact form */}
+          <div className="flex items-center justify-center text-gray-500 italic">
+            You can also connect with us directly on LinkedIn.
+          </div>
         </div>
       </div>
     </div>
