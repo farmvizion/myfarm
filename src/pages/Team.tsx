@@ -18,18 +18,19 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
-    name: 'Subrat',
-    role: 'Co-Founder & CEO',
+    name: 'Joachim',
+    role: 'Co-Founder & Chief Agriculture Scientist',
     bio: 'Driving the vision of smart, sustainable agriculture through technology.',
-    image: SubratImage,
-    linkedin: 'https://www.linkedin.com/in/subrat-das-41a06812/',
-  },
-  {
-    name: 'Joachim ',
-    role: 'Agricultural Scientist',
-    bio: 'Expert in crop health and diagnostics',
     image: JoachimImage,
     linkedin: 'https://www.linkedin.com/company/farmvizion.com/',
+  },
+  {
+    name: 'Subrat ',
+    role: 'Co-Founder & COO',
+    bio: 'Proven business leader with decades of experience in FMCG, Retail and Food industry',
+    image: SubratImage,
+    linkedin: 'https://www.linkedin.com/in/subrat-das-41a06812/',
+
   },
   {
     name: 'Priyabrata',
