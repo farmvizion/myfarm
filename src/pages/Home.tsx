@@ -1,19 +1,31 @@
-import { Link } from 'react-router-dom';
-import BackgroundImage from '../assets/iot.png'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import MobileHero from '../assets/MobileHero.png'
+import DesktopHero from '../assets/DesktopHero.png'
 
 const Home = () => {
+  const [backgroundImage, setBackgroundImage] = useState<string>(MobileHero)
+
+  useEffect(() => {
+    const updateBackground = () => {
+      setBackgroundImage(window.innerWidth >= 768 ? DesktopHero : MobileHero)
+    }
+
+    updateBackground()
+    window.addEventListener('resize', updateBackground)
+    return () => window.removeEventListener('resize', updateBackground)
+  }, [])
+
   return (
     <div className="bg-white text-gray-800">
-      {/* Hero Section with background image */}
+      {/* Hero Section */}
       <section
-        className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-green-100 to-white px-4 py-16 text-center bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${BackgroundImage})` }}      >
-        {/* Optional: overlay to darken the background for better text readability */}
+        className="flex flex-col justify-center items-center px-4 py-16 text-center bg-center bg-no-repeat relative bg-cover min-h-screen"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
         <div className="absolute inset-0 bg-black opacity-30"></div>
 
-        {/* Content container to position above overlay */}
         <div className="relative z-10 max-w-3xl">
-       
           <p className="text-lg md:text-xl mb-6 text-white">
             Farmvizion leverages AI and IoT to transform farms into intelligent ecosystems—monitor, diagnose, and act in real time.
           </p>
@@ -57,22 +69,22 @@ const Home = () => {
         </div>
       </section>
 
-   {/* Contact CTA */}
-    <section
-      id="contact"
-      className="bg-green-600 text-white py-16 px-4 text-center"
-    >
-      <h2 className="text-3xl font-bold mb-4">Ready to revolutionize your farm?</h2>
-      <p className="mb-6">Connect with us and bring intelligence to your fields.</p>
-      <Link
-        to="/contact"
-        className="bg-white text-green-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
+      {/* Contact CTA */}
+      <section
+        id="contact"
+        className="bg-green-600 text-white py-16 px-4 text-center"
       >
-        Contact Us
-      </Link>
-    </section>
+        <h2 className="text-3xl font-bold mb-4">Ready to revolutionize your farm?</h2>
+        <p className="mb-6">Connect with us and bring intelligence to your fields.</p>
+        <Link
+          to="/contact"
+          className="bg-white text-green-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
+        >
+          Contact Us
+        </Link>
+      </section>
     </div>
   )
 }
 
-export default Home;
+export default Home
