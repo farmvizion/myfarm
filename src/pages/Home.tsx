@@ -30,11 +30,13 @@ const Home = () => {
             Farmvizion leverages AI and IoT to transform farms into intelligent ecosystems—monitor, diagnose, and act in real time.
           </p>
           <a
-            href="#contact"
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition"
-          >
-            Get Started
+          href="https://farmvizion.my.canva.site/india"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition">
+          Get Started
           </a>
+
         </div>
       </section>
 
