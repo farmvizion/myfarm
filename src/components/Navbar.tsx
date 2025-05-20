@@ -1,6 +1,7 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import Logo from '../assets/logo.svg' // Adjust the path if needed
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -16,8 +17,9 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-green-600">
-          Farmvizion
+        <Link to="/" className="flex items-center space-x-2">
+          <img src={Logo} alt="Farmvizion Logo" className="w-auto" />
+          <span className="text-2xl font-bold text-green-600">Farmvizion</span>
         </Link>
 
         {/* Desktop Menu */}

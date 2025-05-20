@@ -1,21 +1,29 @@
+import { Link } from 'react-router-dom';
+import BackgroundImage from '../assets/iot.png'
 
 const Home = () => {
   return (
     <div className="bg-white text-gray-800">
-      {/* Hero Section */}
-      <section className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-green-100 to-white px-4 py-16 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">
-          Empowering Smart Agriculture
-        </h1>
-        <p className="text-lg md:text-xl max-w-2xl mb-6">
-          Farmvizion leverages AI and IoT to transform farms into intelligent ecosystems—monitor, diagnose, and act in real time.
-        </p>
-        <a
-          href="#contact"
-          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition"
-        >
-          Get Started
-        </a>
+      {/* Hero Section with background image */}
+      <section
+        className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-green-100 to-white px-4 py-16 text-center bg-cover bg-center relative"
+        style={{ backgroundImage: `url(${BackgroundImage})` }}      >
+        {/* Optional: overlay to darken the background for better text readability */}
+        <div className="absolute inset-0 bg-black opacity-30"></div>
+
+        {/* Content container to position above overlay */}
+        <div className="relative z-10 max-w-3xl">
+       
+          <p className="text-lg md:text-xl mb-6 text-white">
+            Farmvizion leverages AI and IoT to transform farms into intelligent ecosystems—monitor, diagnose, and act in real time.
+          </p>
+          <a
+            href="#contact"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition"
+          >
+            Get Started
+          </a>
+        </div>
       </section>
 
       {/* Features Section */}
@@ -49,22 +57,22 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section
-        id="contact"
-        className="bg-green-600 text-white py-16 px-4 text-center"
+   {/* Contact CTA */}
+    <section
+      id="contact"
+      className="bg-green-600 text-white py-16 px-4 text-center"
+    >
+      <h2 className="text-3xl font-bold mb-4">Ready to revolutionize your farm?</h2>
+      <p className="mb-6">Connect with us and bring intelligence to your fields.</p>
+      <Link
+        to="/contact"
+        className="bg-white text-green-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
       >
-        <h2 className="text-3xl font-bold mb-4">Ready to revolutionize your farm?</h2>
-        <p className="mb-6">Connect with us and bring intelligence to your fields.</p>
-        <a
-          href="mailto:hello@farmvizion.com"
-          className="bg-white text-green-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
-        >
-          Contact Us
-        </a>
-      </section>
+        Contact Us
+      </Link>
+    </section>
     </div>
   )
 }
 
-export default Home
+export default Home;

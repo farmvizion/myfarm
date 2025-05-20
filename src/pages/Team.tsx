@@ -1,4 +1,11 @@
 import VedImage from '../assets/ved.png'
+import RajuImage from '../assets/raju.png'
+import PDImage from '../assets/pd.png'
+import SubratImage from '../assets/subrat.png'
+import JoachimImage from '../assets/joachim.jpg'
+import AndreaImage from '../assets/andrea.jpg'
+
+
 import { FaLinkedin } from 'react-icons/fa'
 
 interface TeamMember {
@@ -14,42 +21,42 @@ const teamMembers: TeamMember[] = [
     name: 'Subrat',
     role: 'Co-Founder & CEO',
     bio: 'Driving the vision of smart, sustainable agriculture through technology.',
-    image: VedImage,
+    image: SubratImage,
     linkedin: 'https://www.linkedin.com/in/subrat-das-41a06812/',
   },
   {
     name: 'Joachim ',
     role: 'Agricultural Scientist',
-    bio: 'Expert in crop health and diagnostics, helping train AI models with agricultural precision.',
-    image: '',
+    bio: 'Expert in crop health and diagnostics',
+    image: JoachimImage,
     linkedin: 'https://www.linkedin.com/company/farmvizion.com/',
   },
   {
-    name: 'PD',
+    name: 'Priyabrata',
     role: 'CTO',
     bio: 'Brings decades of experience in IoT and software engineering.',
-    image: '',
+    image: PDImage,
     linkedin: 'https://www.linkedin.com/in/priyabratadas/',
   },
   {
     name: 'Raju',
-    role: '',
-    bio: 'Head of product and project management',
-    image: '',
+    role: 'Head of product and project management',
+    bio: 'Brings 15+ yeas of experience in program management and delivery',
+    image: RajuImage,
     linkedin: 'https://www.linkedin.com/company/farmvizion.com/',
   },
   {
     name: 'Ved',
     role: 'Co Founder and AI Engineer',
     bio: 'Building AI models with agricultural precision.',
-    image: '',
+    image: VedImage,
     linkedin: 'https://www.linkedin.com/in/ved-das-2b6703236/',
   },
   {
     name: 'Andreas',
-    role: '',
-    bio: 'Head of Farming and Community development',
-    image: '',
+    role: 'Head of Farming and Community development',
+    bio: 'Environmentalist and social entrepreneur with background in Agriculture and Life Science',
+    image: AndreaImage,
     linkedin: 'https://www.linkedin.com/company/farmvizion.com/',
   }
 ]
@@ -58,7 +65,7 @@ const Team = () => {
   return (
     <div className="bg-white text-gray-800 px-4 py-16">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12">Meet the Team</h1>
+        <h1 className="text-4xl font-bold text-center mb-12">Team Farmvizion</h1>
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {teamMembers.map((member, index) => {
             const CardContent = (
@@ -77,11 +84,7 @@ const Team = () => {
                 <h2 className="text-xl font-semibold">{member.name}</h2>
                 <p className="text-green-600 font-medium">{member.role}</p>
                 <p className="text-gray-600 mt-2 text-sm">{member.bio}</p>
-                {member.linkedin && (
-                  <div className="mt-4 text-blue-600 text-2xl">
-                    <FaLinkedin />
-                  </div>
-                )}
+              
               </div>
             )
 

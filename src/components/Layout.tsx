@@ -1,5 +1,6 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import Logo from '../assets/logo.svg' // Adjust the path if needed
 
 const Layout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -7,7 +8,12 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <nav className="bg-green-700 text-white p-4 flex justify-between items-center">
-        <div className="text-xl font-bold">Farmvizion</div>
+        {/* Logo and Title */}
+        <div className="flex items-center space-x-3">
+          <img src={Logo} alt="Farmvizion Logo" className="h-8 w-8 object-contain" />
+            
+          <div className="text-xl font-bold">Farmvizion</div>
+        </div>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6">

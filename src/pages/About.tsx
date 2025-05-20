@@ -1,11 +1,19 @@
-import React from 'react'
+import Logo from '../assets/drone.jpg' // Adjust the path if needed
 
 const About = () => {
   return (
     <div className="bg-white text-gray-800 px-4 py-16">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8">About Us</h1>
-        <p className="text-lg text-center max-w-3xl mx-auto mb-12">
+      <div className="max-w-5xl mx-auto text-center">
+        {/* Logo */}
+        <img
+          src={Logo} // Adjust path if needed
+          alt="Farmvizion Logo"
+          className="mx-auto mb-8 h-24 w-24 object-contain"
+        />
+
+        <h1 className="text-4xl font-bold mb-8">About Us</h1>
+
+        <p className="text-lg max-w-3xl mx-auto mb-12">
           At <span className="font-semibold text-green-600">Farmvizion</span>, we are redefining the way agriculture works. By integrating AI-driven image analysis and IoT-based sensing into farming practices, we empower farmers with real-time, data-backed decisions to increase yield, reduce loss, and promote sustainable farming.
         </p>
 
@@ -36,7 +44,7 @@ const About = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;
