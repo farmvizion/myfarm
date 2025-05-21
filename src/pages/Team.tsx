@@ -1,72 +1,70 @@
-import VedImage from '../assets/ved.png'
-import RajuImage from '../assets/raju.png'
-import PDImage from '../assets/pd.png'
-import SubratImage from '../assets/subrat.png'
-import JoachimImage from '../assets/joachim.jpg'
-import AndreaImage from '../assets/andrea.jpg'
+import VedImage from "../assets/ved.png";
+import RajuImage from "../assets/raju.png";
+import PDImage from "../assets/pd.png";
+import SubratImage from "../assets/subrat.png";
+import JoachimImage from "../assets/joachim.jpg";
+import AndreaImage from "../assets/andrea.jpg";
 
-
-import { FaLinkedin } from 'react-icons/fa'
+import { FaLinkedin } from "react-icons/fa";
 
 interface TeamMember {
-  name: string
-  role: string
-  bio: string
-  image?: string
-  linkedin?: string
+  name: string;
+  role: string;
+  bio: string;
+  image?: string;
+  linkedin?: string;
 }
 
 const teamMembers: TeamMember[] = [
   {
-    name: 'Joachim',
-    role: 'Co-Founder & Chief Agriculture Scientist',
-    bio: 'Driving the vision of smart, sustainable agriculture through technology.',
+    name: "Joachim",
+    role: "Co-Founder & Chief Agriculture Scientist",
+    bio: "Driving the vision of smart, sustainable agriculture through technology.",
     image: JoachimImage,
-    linkedin: 'https://www.linkedin.com/company/farmvizion.com/',
+    linkedin: "https://www.linkedin.com/company/farmvizion.com/",
   },
   {
-    name: 'Subrat ',
-    role: 'Co-Founder & COO',
-    bio: 'Proven business leader with decades of experience in FMCG, Retail and Food industry',
+    name: "Subrat ",
+    role: "Co-Founder & COO",
+    bio: "Proven business leader with decades of experience in FMCG, Retail and Food industry",
     image: SubratImage,
-    linkedin: 'https://www.linkedin.com/in/subrat-das-41a06812/',
-
+    linkedin: "https://www.linkedin.com/in/subrat-das-41a06812/",
   },
   {
-    name: 'Priyabrata',
-    role: 'CTO',
-    bio: 'Brings decades of experience in IoT and software engineering.',
+    name: "Priyabrata",
+    role: "CTO",
+    bio: "Brings decades of experience in IoT and software engineering.",
     image: PDImage,
-    linkedin: 'https://www.linkedin.com/in/priyabratadas/',
+    linkedin: "https://www.linkedin.com/in/priyabratadas/",
   },
   {
-    name: 'Raju',
-    role: 'Head of product and project management',
-    bio: 'Brings 15+ yeas of experience in program management and delivery',
+    name: "Raju",
+    role: "Head of product and project management",
+    bio: "Brings 15+ yeas of experience in program management and delivery",
     image: RajuImage,
-    linkedin: 'https://www.linkedin.com/company/farmvizion.com/',
+    linkedin: "https://www.linkedin.com/company/farmvizion.com/",
   },
   {
-    name: 'Ved',
-    role: 'Co Founder and AI Engineer',
-    bio: 'Building AI models with agricultural precision.',
+    name: "Ved",
+    role: "Co Founder and AI Engineer",
+    bio: "Building AI models with agricultural precision.",
     image: VedImage,
-    linkedin: 'https://www.linkedin.com/in/ved-das-2b6703236/',
+    linkedin: "https://www.linkedin.com/in/ved-das-2b6703236/",
   },
   {
-    name: 'Andreas',
-    role: 'Head of Farming and Community development',
-    bio: 'Environmentalist and social entrepreneur with background in Agriculture and Life Science',
+    name: "Andreas",
+    role: "Head of Farming and Community development",
+    bio: "Environmentalist and social entrepreneur with background in Agriculture and Life Science",
     image: AndreaImage,
-    linkedin: 'https://www.linkedin.com/company/farmvizion.com/',
-  }
-]
+    linkedin: "https://www.linkedin.com/company/farmvizion.com/",
+  },
+];
 
 const Team = () => {
   return (
     <div className="bg-white text-gray-800 px-4 py-16">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12">Team Farmvizion</h1>
+        <h1 className="text-4xl font-bold text-center mb-12">Team </h1>
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {teamMembers.map((member, index) => {
             const CardContent = (
@@ -85,9 +83,8 @@ const Team = () => {
                 <h2 className="text-xl font-semibold">{member.name}</h2>
                 <p className="text-green-600 font-medium">{member.role}</p>
                 <p className="text-gray-600 mt-2 text-sm">{member.bio}</p>
-              
               </div>
-            )
+            );
 
             return member.linkedin ? (
               <a
@@ -102,12 +99,12 @@ const Team = () => {
               </a>
             ) : (
               <div key={index}>{CardContent}</div>
-            )
+            );
           })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Team
+export default Team;
