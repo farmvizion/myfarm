@@ -5,6 +5,7 @@ import DesktopHero from "../assets/DesktopHero.png";
 
 const Home = () => {
   const [backgroundImage, setBackgroundImage] = useState<string>(MobileHero);
+  const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
     const updateBackground = () => {
@@ -40,14 +41,35 @@ const Home = () => {
             Farmvizion leverages AI and IoT to transform farms into intelligent
             ecosystems—monitor, diagnose, and act in real time.
           </p>
-          <a
-            href="https://farmvizion.my.canva.site/germany"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition"
-          >
-            Get Started
-          </a>
+
+          {!showVideo ? (
+            <button
+              onClick={() => setShowVideo(true)}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition"
+            >
+              Watch Video
+            </button>
+          ) : (
+            <div className="relative aspect-video w-full max-w-xl mx-auto rounded-lg overflow-hidden shadow-lg mt-6">
+              <iframe
+                src="https://www.youtube.com/embed/br4h19Tv0ok?autoplay=1"
+                title="Farmvizion Overview"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setShowVideo(false)}
+                className="absolute top-2 right-2 bg-white text-gray-800 rounded-full px-2 py-1 text-sm font-bold shadow hover:bg-red-500 hover:text-white transition"
+                aria-label="Close video"
+              >
+                ✕
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
