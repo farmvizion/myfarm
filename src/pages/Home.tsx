@@ -1,42 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import MobileHero from '../assets/MobileHero.png'
-import DesktopHero from '../assets/DesktopHero.png'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import MobileHero from "../assets/MobileHero.png";
+import DesktopHero from "../assets/DesktopHero.png";
 
 const Home = () => {
-  const [backgroundImage, setBackgroundImage] = useState<string>(MobileHero)
+  const [backgroundImage, setBackgroundImage] = useState<string>(MobileHero);
 
   useEffect(() => {
     const updateBackground = () => {
-      setBackgroundImage(window.innerWidth >= 768 ? DesktopHero : MobileHero)
-    }
+      setBackgroundImage(window.innerWidth >= 768 ? DesktopHero : MobileHero);
+    };
 
-    updateBackground()
-    window.addEventListener('resize', updateBackground)
-    return () => window.removeEventListener('resize', updateBackground)
-  }, [])
+    updateBackground();
+    window.addEventListener("resize", updateBackground);
+    return () => window.removeEventListener("resize", updateBackground);
+  }, []);
 
   return (
     <div className="bg-white text-gray-800">
       {/* Hero Section */}
-      <section
-        className="flex flex-col justify-center items-center px-4 py-16 text-center bg-center bg-no-repeat relative bg-cover min-h-screen"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      >
-        <div className="absolute inset-0 bg-black opacity-30"></div>
+      <section className="relative w-full min-h-screen flex items-center justify-center text-center overflow-hidden">
+        {/* Background Image */}
+        <img
+          src={backgroundImage}
+          alt="Farmvizion Hero"
+          className="absolute inset-0 w-full h-full object-cover object-top z-0"
+        />
 
-        <div className="relative z-10 max-w-3xl">
-          <p className="text-lg md:text-xl mb-6 text-white">
-            Farmvizion leverages AI and IoT to transform farms into intelligent ecosystems—monitor, diagnose, and act in real time.
+        {/* Gradient side overlays */}
+        <div className="absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-white via-white/50 to-transparent z-10"></div>
+        <div className="absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-white via-white/50 to-transparent z-10"></div>
+
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black opacity-30 z-10"></div>
+
+        {/* Content */}
+        <div className="relative z-20 max-w-3xl mx-auto px-4 text-white">
+          <p className="text-lg md:text-xl mb-6">
+            Farmvizion leverages AI and IoT to transform farms into intelligent
+            ecosystems—monitor, diagnose, and act in real time.
           </p>
           <a
-          href="https://farmvizion.my.canva.site/germany"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition">
-          Get Started
+            href="https://farmvizion.my.canva.site/germany"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition"
+          >
+            Get Started
           </a>
-
         </div>
       </section>
 
@@ -47,16 +58,16 @@ const Home = () => {
           <div className="grid gap-8 md:grid-cols-3">
             {[
               {
-                title: 'AI Crop Diagnostics',
-                desc: 'Identify plant diseases, pests, and health issues using AI-powered analysis of images and data.',
+                title: "AI Crop Diagnostics",
+                desc: "Identify plant diseases, pests, and health issues using AI-powered analysis of images and data.",
               },
               {
-                title: 'IoT Sensor Integration',
-                desc: 'Monitor soil, climate, and crop conditions in real-time with intelligent sensor networks.',
+                title: "IoT Sensor Integration",
+                desc: "Monitor soil, climate, and crop conditions in real-time with intelligent sensor networks.",
               },
               {
-                title: 'Actionable Insights',
-                desc: 'Receive alerts and treatment suggestions tailored to each crop and region.',
+                title: "Actionable Insights",
+                desc: "Receive alerts and treatment suggestions tailored to each crop and region.",
               },
             ].map((feature) => (
               <div
@@ -76,8 +87,12 @@ const Home = () => {
         id="contact"
         className="bg-green-600 text-white py-16 px-4 text-center"
       >
-        <h2 className="text-3xl font-bold mb-4">Ready to revolutionize your farm?</h2>
-        <p className="mb-6">Connect with us and bring intelligence to your fields.</p>
+        <h2 className="text-3xl font-bold mb-4">
+          Ready to revolutionize your farm?
+        </h2>
+        <p className="mb-6">
+          Connect with us and bring intelligence to your fields.
+        </p>
         <Link
           to="/contact"
           className="bg-white text-green-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
@@ -86,7 +101,7 @@ const Home = () => {
         </Link>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
