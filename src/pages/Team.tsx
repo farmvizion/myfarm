@@ -51,13 +51,6 @@ const teamMembers: TeamMember[] = [
     image: VedImage,
     linkedin: "https://www.linkedin.com/in/ved-das-2b6703236/",
   },
-  {
-    name: "Andreas",
-    role: "Head of Farming and Community development",
-    bio: "Environmentalist and social entrepreneur with background in Agriculture and Life Science",
-    image: AndreaImage,
-    linkedin: "https://www.linkedin.com/company/farmvizion.com/",
-  },
 ];
 
 const Team = () => {

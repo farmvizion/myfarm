@@ -1,22 +1,33 @@
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
-import Logo from '../assets/logo.svg' // Adjust the path if needed
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import Logo from "../assets/logo.svg";
+import { useAuth } from "../context/AuthContext"; // Adjust the path
 
 const Layout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isAuthenticated, userRole, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); // Clear token/cookie/etc.
+    navigate("/signin");
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
       <nav className="bg-green-700 text-white p-4 flex justify-between items-center">
         {/* Logo and Title */}
         <div className="flex items-center space-x-3">
-          <img src={Logo} alt="Farmvizion Logo" className="h-8 w-8 object-contain" />
-            
+          <img
+            src={Logo}
+            alt="Farmvizion Logo"
+            className="h-8 w-8 object-contain"
+          />
           <div className="text-xl font-bold">Farmvizion</div>
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6">
+        <ul className="hidden md:flex space-x-6 items-center">
           <li>
             <NavLink
               to="/"
@@ -26,6 +37,16 @@ const Layout = () => {
               }
             >
               Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/farmplan"
+              className={({ isActive }) =>
+                isActive ? "underline" : "hover:underline"
+              }
+            >
+              My Farm
             </NavLink>
           </li>
           <li>
@@ -58,6 +79,31 @@ const Layout = () => {
               Contact
             </NavLink>
           </li>
+          {isAuthenticated && userRole === "admin" && (
+            <li>
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  isActive ? "underline" : "hover:underline"
+                }
+              >
+                Admin
+              </NavLink>
+            </li>
+          )}
+          {isAuthenticated ? (
+            <li>
+              <button onClick={handleLogout} className="hover:underline">
+                Sign Out
+              </button>
+            </li>
+          ) : (
+            <li>
+              <NavLink to="/signin" className="hover:underline">
+                Sign In
+              </NavLink>
+            </li>
+          )}
         </ul>
 
         {/* Mobile Menu Button */}
@@ -87,6 +133,17 @@ const Layout = () => {
           </li>
           <li>
             <NavLink
+              to="/farmplan"
+              onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                isActive ? "underline block" : "block hover:underline"
+              }
+            >
+              My Farm
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/about"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
@@ -118,6 +175,42 @@ const Layout = () => {
               Contact
             </NavLink>
           </li>
+          {isAuthenticated && userRole === "admin" && (
+            <li>
+              <NavLink
+                to="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  isActive ? "underline block" : "block hover:underline"
+                }
+              >
+                Admin
+              </NavLink>
+            </li>
+          )}
+          {isAuthenticated ? (
+            <li>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleLogout();
+                }}
+                className="text-left hover:underline"
+              >
+                Sign Out
+              </button>
+            </li>
+          ) : (
+            <li>
+              <NavLink
+                to="/signin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block hover:underline"
+              >
+                Sign In
+              </NavLink>
+            </li>
+          )}
         </ul>
       )}
 
@@ -128,7 +221,7 @@ const Layout = () => {
 
       {/* Footer */}
       <footer className="bg-green-700 text-white p-4 text-center">
-        &copy; 2025 Farmvizion. All rights reserved.
+        © 2025 Farmvizion. All rights reserved.
       </footer>
     </div>
   );
