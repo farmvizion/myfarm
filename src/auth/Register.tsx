@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png"; // Adjust the path if needed
 
 const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
+  const backend_api_url = import.meta.env.VITE_APP_API_URL;
+  //`${backend_api_url}/api/register`
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -53,7 +55,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
     }
     try {
       console.log(formData);
-      await axios.post("http://localhost:3000/api/register", formData);
+      await axios.post(`${backend_api_url}/api/register`, formData);
       alert("Registration successful!");
       navigate("/");
     } catch (err: any) {

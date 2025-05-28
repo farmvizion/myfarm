@@ -6,6 +6,8 @@ interface ForgotPasswordProps {
 }
 
 const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }) => {
+  const backend_api_url = import.meta.env.VITE_APP_API_URL;
+  //`${backend_api_url}/api/request-reset`
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -21,7 +23,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToSignIn }) => {
     }
 
     try {
-      const res = await axios.post("http://localhost:3000/api/request-reset", {
+      const res = await axios.post(`${backend_api_url}/api/request-reset`, {
         email,
       });
 
