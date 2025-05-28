@@ -23,16 +23,15 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
       navigator.geolocation.getCurrentPosition(async (pos) => {
         const { latitude, longitude } = pos.coords;
         try {
-          const res = await axios.get(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-          );
-          const city =
-            res.data.address.city ||
-            res.data.address.town ||
-            res.data.address.village ||
-            "";
-          const country = res.data.address.country || "";
-          const location = `${city}, ${country}`;
+          
+          // Call your own backend instead
+          const res = await axios.get(`${backend_api_url}/api/reverse-geocode?lat=${latitude}&lon=${longitude}`);
+
+          //console.log('Location response:', res.data);
+
+  
+          const location = res.data.location;
+          //console.log('Parsed location:', location);
           setFormData((prev) => ({ ...prev, location }));
         } catch (err) {
           console.warn("Location fetch failed", err);
@@ -54,7 +53,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
       return;
     }
     try {
-      console.log(formData);
+      //console.log(formData);
       await axios.post(`${backend_api_url}/api/register`, formData);
       alert("Registration successful!");
       navigate("/");

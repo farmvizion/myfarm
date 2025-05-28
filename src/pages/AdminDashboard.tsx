@@ -3,8 +3,8 @@ import axios, { AxiosError } from "axios";
 import { useAuth } from "../context/AuthContext";
 
 // Define environment variable for API base URL
-//const API_BASE_URL = "http://localhost:3000";
-const API_BASE_URL = "https://16.171.60.139:3000";
+const API_BASE_URL = "http://localhost:3000";
+//const API_BASE_URL = "https://16.171.60.139";
 
 interface User {
   id: number;

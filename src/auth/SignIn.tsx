@@ -31,6 +31,7 @@ const SignIn: React.FC<SignInProps> = ({ onToggle }) => {
     console.log(backend_api_url);
     e.preventDefault();
     setMessage("");
+    console.log("Sending login request with:", { email, password });
 
     try {
       const res = await axios.post(`${backend_api_url}/api/login`, {
