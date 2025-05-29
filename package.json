@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "version": "0.0.1",
-  "homepage": "https://farmvizion.github.io/myfarm",
+  "homepage": "https://farmvizion.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
