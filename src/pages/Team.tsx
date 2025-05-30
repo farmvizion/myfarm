@@ -25,10 +25,17 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: "Subrat ",
-    role: "Co-Founder & COO",
+    role: "COO",
     bio: "Proven business leader with decades of experience in FMCG, Retail and Food industry",
     image: SubratImage,
     linkedin: "https://www.linkedin.com/in/subrat-das-41a06812/",
+  },
+  {
+    name: "Andrea ",
+    role: "Co-Founder & CHRO",
+    bio: "Agri Entrepreneur with 10+ years of experience in leading sustainability projects",
+    image: AndreaImage,
+    linkedin: "https://www.linkedin.com/company/farmvizion.com/",
   },
   {
     name: "Priyabrata",
