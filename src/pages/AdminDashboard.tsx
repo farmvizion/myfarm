@@ -28,9 +28,17 @@ interface Crop {
   notes: string | null;
 }
 
+
+interface Query {
+  email: string;
+  name: string;
+  message: string;
+}
+
 const AdminDashboard = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [crops, setCrops] = useState<Crop[]>([]);
+  
   const [newUser, setNewUser] = useState<Partial<User>>({});
   const [newCrop, setNewCrop] = useState<Partial<Crop>>({});
   const [password, setPassword] = useState("");
