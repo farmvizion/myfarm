@@ -54,29 +54,7 @@ const FarmForm: React.FC = () => {
         Welcome to my farm! - Willkommen auf meiner Farm!
       </h2>
 
-      {/* Text input and dropdown */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input
-          type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-          placeholder="Enter something…"
-          required
-        />
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-          required
-        >
-          {categories.map((opt) => (
-            <option key={opt.value} value={opt.value} disabled={!opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </div>
+
 
 {/* 4x4 Image Checkbox Grid */}
 <div className="grid grid-cols-4 gap-4">
