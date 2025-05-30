@@ -104,6 +104,7 @@ const FarmForm: React.FC = () => {
 
       <button
         type="submit"
+        onClick={() => {}}
         className="w-full py-2 rounded-md text-white font-medium bg-green-600 hover:bg-green-700 transition"
       >
         Submit
