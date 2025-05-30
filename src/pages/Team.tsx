@@ -40,7 +40,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Priyabrata",
     role: "CTO",
-    bio: "Brings decades of experience in IoT and software engineering.",
+    bio: "Chief Engineer. Ex GE, Cisco, Samsung and Amazon. He brings decades of experience in IoT and software engineering.",
     image: PDImage,
     linkedin: "https://www.linkedin.com/in/priyabratadas/",
   },
