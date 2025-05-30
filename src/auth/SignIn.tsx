@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import Logo from "../assets/logo.png"; // Optional logo
+import NatureBg from "../assets/nature.jpg"; // Your background image
 
 interface SignInProps {
   onToggle: () => void;
@@ -15,20 +17,10 @@ const SignIn: React.FC<SignInProps> = ({ onToggle }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
-
   const [message, setMessage] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
 
-  // Forgot Password states
-  const [forgotEmail, setForgotEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [forgotMessage, setForgotMessage] = useState("");
-
   const handleSubmit = async (e: React.FormEvent) => {
-    //console.log(backend_api_url);
     e.preventDefault();
     setMessage("");
 
@@ -59,64 +51,76 @@ const SignIn: React.FC<SignInProps> = ({ onToggle }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-4">Sign In</h2>
-      {message && <p className="text-red-500 mb-2">{message}</p>}
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
+      style={{ backgroundImage: `url(${NatureBg})` }}
+    >
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-2 border border-gray-300 rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            className="w-full p-2 border border-gray-300 rounded"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button
-            type="button"
-            className="absolute right-2 top-2 text-sm text-gray-600 hover:text-gray-900"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? "Hide" : "Show"}
-          </button>
+      <div className="relative z-10 max-w-md w-full bg-white/90 p-8 shadow-2xl rounded-xl backdrop-blur-md">
+        <div className="mb-6 text-center">
+          <img src={Logo} alt="Logo" className="mx-auto h-16 w-16" />
+          <h2 className="text-2xl font-bold mt-4 text-green-700">Sign In</h2>
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-green-700 text-white p-2 rounded hover:bg-green-800"
-        >
-          Sign In
-        </button>
-      </form>
+        {message && <p className="text-red-600 text-sm mb-3 text-center">{message}</p>}
 
-      <p className="mt-2 text-right">
-        <button
-          type="button"
-          className="text-green-700 hover:underline"
-          onClick={clickedForgotPassword}
-        >
-          Forgot Password?
-        </button>
-      </p>
-      <p className="mt-4 text-center">
-        Don't have an account?{" "}
-        <button
-          type="button"
-          className="text-green-700 hover:underline"
-          onClick={onToggle}
-        >
-          Register here
-        </button>
-      </p>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="absolute right-2 top-2 text-sm text-gray-600 hover:text-gray-900"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold"
+          >
+            Sign In
+          </button>
+        </form>
+
+        <p className="mt-3 text-sm text-right">
+          <button
+            type="button"
+            className="text-green-700 hover:underline"
+            onClick={clickedForgotPassword}
+          >
+            Forgot Password?
+          </button>
+        </p>
+
+        <p className="mt-4 text-center text-sm text-gray-700">
+          Don't have an account?{" "}
+          <button
+            type="button"
+            className="text-green-700 hover:underline font-medium"
+            onClick={onToggle}
+          >
+            Register here
+          </button>
+        </p>
+      </div>
     </div>
   );
 };

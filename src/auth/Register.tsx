@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Logo from "../assets/logo.png"; // Adjust the path if needed
+import Logo from "../assets/logo.png"; 
+import NatureBg from "../assets/nature.jpg"; // Add your background image here
 
 const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
   const backend_api_url = import.meta.env.VITE_APP_API_URL;
-  //`${backend_api_url}/api/register`
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -23,15 +23,10 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
       navigator.geolocation.getCurrentPosition(async (pos) => {
         const { latitude, longitude } = pos.coords;
         try {
-          
-          // Call your own backend instead
-          const res = await axios.get(`${backend_api_url}/api/reverse-geocode?lat=${latitude}&lon=${longitude}`);
-
-          //console.log('Location response:', res.data);
-
-  
+          const res = await axios.get(
+            `${backend_api_url}/api/reverse-geocode?lat=${latitude}&lon=${longitude}`
+          );
           const location = res.data.location;
-          //console.log('Parsed location:', location);
           setFormData((prev) => ({ ...prev, location }));
         } catch (err) {
           console.warn("Location fetch failed", err);
@@ -53,7 +48,6 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
       return;
     }
     try {
-      //console.log(formData);
       await axios.post(`${backend_api_url}/api/register`, formData);
       alert("Registration successful!");
       navigate("/");
@@ -64,11 +58,18 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full bg-white p-8 shadow-lg rounded-lg">
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
+      style={{ backgroundImage: `url(${NatureBg})` }}
+    >
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+
+      <div className="relative z-10 max-w-md w-full bg-white/90 p-8 shadow-2xl rounded-xl backdrop-blur-md">
         <div className="mb-6 text-center">
           <img src={Logo} alt="Logo" className="mx-auto h-16 w-16" />
-          <h2 className="text-2xl font-bold mt-4">Farmer Registration</h2>
+          <h2 className="text-2xl font-bold mt-4 text-green-700">
+            Farmer Registration
+          </h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -78,7 +79,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             placeholder="Full Name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             required
           />
           <input
@@ -87,7 +88,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             placeholder="Email Address"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             required
           />
           <input
@@ -96,10 +97,9 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             required
           />
-
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -107,7 +107,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
               placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               required
             />
             <button
@@ -118,19 +118,21 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
+
           <input
             type="text"
             name="location"
             placeholder="Location"
             value={formData.location}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg bg-gray-100"
+            className="w-full px-4 py-2 border rounded-lg bg-gray-100 cursor-not-allowed"
+            readOnly
           />
           <select
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             required
           >
             <option value="">Select Role</option>
@@ -140,15 +142,18 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
           </select>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold"
           >
             Register
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600 mt-4">
+        <p className="text-center text-sm text-gray-700 mt-4">
           Already have an account?{" "}
-          <button onClick={onToggle} className="text-blue-600 hover:underline">
+          <button
+            onClick={onToggle}
+            className="text-green-700 hover:underline font-medium"
+          >
             Sign In
           </button>
         </p>
