@@ -1,0 +1,88 @@
+{
+  "index.html": {
+    "file": "assets/index-C9ie6jn8.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "css": [
+      "assets/index-DojNoGVs.css"
+    ],
+    "assets": [
+      "assets/logo-Bmcm7qhx.svg",
+      "assets/MobileHero-BBu4fuqh.png",
+      "assets/DesktopHero-BcwJeK5s.png",
+      "assets/drone-CUhKA_Tx.jpg",
+      "assets/ved-CCxurfVp.png",
+      "assets/raju-DAy-7me5.png",
+      "assets/pd-iw3BrVzp.png",
+      "assets/subrat-BKsA5Enj.png",
+      "assets/joachim-CBa1H-zB.jpg",
+      "assets/andrea-Bu-p6NGr.jpg",
+      "assets/logo-B8vHQeIV.png",
+      "assets/rice-BXvGR4Iu.jpg",
+      "assets/wheat-BYN9Ssby.jpeg",
+      "assets/apple-DjcY2Lkn.jpg",
+      "assets/olive-B_38U-CD.jpeg"
+    ]
+  },
+  "src/assets/DesktopHero.png": {
+    "file": "assets/DesktopHero-BcwJeK5s.png",
+    "src": "src/assets/DesktopHero.png"
+  },
+  "src/assets/MobileHero.png": {
+    "file": "assets/MobileHero-BBu4fuqh.png",
+    "src": "src/assets/MobileHero.png"
+  },
+  "src/assets/andrea.jpg": {
+    "file": "assets/andrea-Bu-p6NGr.jpg",
+    "src": "src/assets/andrea.jpg"
+  },
+  "src/assets/apple.jpg": {
+    "file": "assets/apple-DjcY2Lkn.jpg",
+    "src": "src/assets/apple.jpg"
+  },
+  "src/assets/drone.jpg": {
+    "file": "assets/drone-CUhKA_Tx.jpg",
+    "src": "src/assets/drone.jpg"
+  },
+  "src/assets/joachim.jpg": {
+    "file": "assets/joachim-CBa1H-zB.jpg",
+    "src": "src/assets/joachim.jpg"
+  },
+  "src/assets/logo.png": {
+    "file": "assets/logo-B8vHQeIV.png",
+    "src": "src/assets/logo.png"
+  },
+  "src/assets/logo.svg": {
+    "file": "assets/logo-Bmcm7qhx.svg",
+    "src": "src/assets/logo.svg"
+  },
+  "src/assets/olive.jpeg": {
+    "file": "assets/olive-B_38U-CD.jpeg",
+    "src": "src/assets/olive.jpeg"
+  },
+  "src/assets/pd.png": {
+    "file": "assets/pd-iw3BrVzp.png",
+    "src": "src/assets/pd.png"
+  },
+  "src/assets/raju.png": {
+    "file": "assets/raju-DAy-7me5.png",
+    "src": "src/assets/raju.png"
+  },
+  "src/assets/rice.jpg": {
+    "file": "assets/rice-BXvGR4Iu.jpg",
+    "src": "src/assets/rice.jpg"
+  },
+  "src/assets/subrat.png": {
+    "file": "assets/subrat-BKsA5Enj.png",
+    "src": "src/assets/subrat.png"
+  },
+  "src/assets/ved.png": {
+    "file": "assets/ved-CCxurfVp.png",
+    "src": "src/assets/ved.png"
+  },
+  "src/assets/wheat.jpeg": {
+    "file": "assets/wheat-BYN9Ssby.jpeg",
+    "src": "src/assets/wheat.jpeg"
+  }
+}
