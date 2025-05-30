@@ -32,9 +32,7 @@ const FarmForm: React.FC = () => {
       (k) => selectedItems[parseInt(k, 10)]
     );
     alert(
-      `Text: ${text}\nCategory: ${category}\nSelected items: ${chosen.join(
-        ", "
-      )}`
+      `Contact Farmvizion Team for your device and onboarding `
     );
   };
 
