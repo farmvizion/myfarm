@@ -78,43 +78,50 @@ const FarmForm: React.FC = () => {
         </select>
       </div>
 
-      {/* 4x4 Image Checkbox Grid */}
-      <div className="grid grid-cols-2 gap-4">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="relative border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition"
-            onClick={() => toggleItem(item.id)}
-          >
-            <img src={item.image} alt={item.label} className="object-cover" />
-            <div className="p-2 text-center text-gray-700">{item.label}</div>
-            {selectedItems[item.id] && (
-              <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-            )}
-            <input
-              type="checkbox"
-              checked={!!selectedItems[item.id]}
-              onChange={() => toggleItem(item.id)}
-              className="hidden"
-            />
-          </div>
-        ))}
+{/* 4x4 Image Checkbox Grid */}
+<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+  {items.map((item) => (
+    <div
+      key={item.id}
+      className="relative aspect-square border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition"
+      onClick={() => toggleItem(item.id)}
+    >
+      <img
+        src={item.image}
+        alt={item.label}
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute bottom-0 w-full bg-white/80 text-center py-1 text-sm font-medium text-gray-700">
+        {item.label}
       </div>
+      {selectedItems[item.id] && (
+        <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+      )}
+      <input
+        type="checkbox"
+        checked={!!selectedItems[item.id]}
+        onChange={() => toggleItem(item.id)}
+        className="hidden"
+      />
+    </div>
+  ))}
+</div>
+
 
       <button
         type="submit"
