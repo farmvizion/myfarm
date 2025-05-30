@@ -79,11 +79,11 @@ const FarmForm: React.FC = () => {
       </div>
 
 {/* 4x4 Image Checkbox Grid */}
-<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div className="grid grid-cols-4 gap-4">
   {items.map((item) => (
     <div
       key={item.id}
-      className="relative aspect-square border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition"
+      className="relative w-full h-32 border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition"
       onClick={() => toggleItem(item.id)}
     >
       <img
@@ -91,7 +91,7 @@ const FarmForm: React.FC = () => {
         alt={item.label}
         className="w-full h-full object-cover"
       />
-      <div className="absolute bottom-0 w-full bg-white/80 text-center py-1 text-sm font-medium text-gray-700">
+      <div className="absolute bottom-0 w-full bg-white bg-opacity-75 text-center text-gray-700 py-1">
         {item.label}
       </div>
       {selectedItems[item.id] && (
@@ -121,6 +121,7 @@ const FarmForm: React.FC = () => {
     </div>
   ))}
 </div>
+
 
 
       <button
