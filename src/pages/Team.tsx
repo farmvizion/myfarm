@@ -31,6 +31,13 @@ const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/subrat-das-41a06812/",
   },
   {
+    name: "Andrea ",
+    role: "Co-Founder & CHRO",
+    bio: "Agri Entrepreneur with 10+ years of experience in leading sustainability projects",
+    image: AndreaImage,
+    linkedin: "https://www.linkedin.com/company/farmvizion.com/",
+  },
+  {
     name: "Priyabrata",
     role: "CTO",
     bio: "Brings decades of experience in IoT and software engineering.",
