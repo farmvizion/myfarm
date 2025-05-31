@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom"; // ⛔ Removed BrowserRouter
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -9,7 +9,7 @@ import SignInWrapper from "./auth/SignInWrapper";
 import RegisterWrapper from "./auth/RegisterWrapper";
 import ProtectedRoute from "./ProtectedRoute";
 import FarmPlan from "./pages/FarmPlan";
-import ResetPassword from "./auth/ResetPassord";
+import ResetPassword from "./auth/ResetPassword";  // fixed import name here
 import ForgotPassword from "./auth/ForgotPassword";
 import StylishForm from "./pages/FarmForm";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -40,16 +40,17 @@ const App: React.FC = () => {
           element={
             <ForgotPassword
               onBackToSignIn={() => {
-                // your logic here, e.g. show SignIn component instead
                 navigate("/signin");
               }}
             />
           }
         />
+
         <Route element={<ProtectedRoute />}>
           <Route path="farmplan" element={<StylishForm />} />
           {/* other protected routes */}
         </Route>
+
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<AdminDashboard />} />
         </Route>

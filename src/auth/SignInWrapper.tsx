@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import SignIn from "./SignIn";
 import { useAuth } from "../context/AuthContext";
+import LoginSelector from "./LoginSelector";
 
 const SignInWrapper: React.FC = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const SignInWrapper: React.FC = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  return <SignIn onToggle={() => navigate("/register")} />;
+  return <LoginSelector onToggle={() => navigate("/register")} />;
 };
 
 export default SignInWrapper;

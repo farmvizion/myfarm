@@ -1,0 +1,9 @@
+{
+  "chooseLoginMethod": "Login-Methode wählen",
+  "loginWithEmail": "Mit E-Mail anmelden",
+  "loginWithGoogle": "Mit Google anmelden",
+  "loginWithPhone": "Mit Telefon anmelden",
+  "dontHaveAccount": "Sie haben kein Konto?",
+  "registerHere": "Hier registrieren",
+  "backToLoginMethod": "← Zurück zur Auswahl der Anmeldemethode"
+}

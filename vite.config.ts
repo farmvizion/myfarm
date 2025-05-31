@@ -6,5 +6,7 @@ export default defineConfig({
   base: '/myfarm/',
   build: {
     manifest: true, // generates manifest.json for cache busting if needed
+    chunkSizeWarningLimit: 1000, // in kB
+
   }
 })

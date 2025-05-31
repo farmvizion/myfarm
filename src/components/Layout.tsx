@@ -15,13 +15,15 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Navbar */}
-      <nav className="bg-green-700 text-white p-4 flex justify-between items-center">
-        {/* Logo and Title */}
-        <div className="flex items-center space-x-3">
-          <img src={Logo} alt="Farmvizion Logo" className="h-8 w-8 object-contain" />
-          <div className="text-xl font-bold select-none">Farmvizion</div>
-        </div>
+      {/* Logo at top */}
+      <header className="bg-green-700 py-6 flex justify-center items-center">
+        <img src={Logo} alt="Farmvizion Logo" className="h-20 w-20 object-contain" />
+      </header>
+
+      {/* Navbar below logo */}
+      <nav className="bg-green-600 text-white p-4 flex justify-between items-center">
+        {/* Title */}
+        <div className="text-xl font-bold select-none">Farmvizion</div>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 items-center text-sm md:text-base">
@@ -41,7 +43,10 @@ const Layout = () => {
               </button>
             </li>
           ) : (
-            <NavItem to="/signin" label="Sign In" />
+            <>
+              <NavItem to="/signin" label="Sign In" />
+              <NavItem to="/register" label="Register" />
+            </>
           )}
         </ul>
 
@@ -58,7 +63,7 @@ const Layout = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <ul className="bg-green-600 text-white flex flex-col space-y-2 p-4 md:hidden text-base">
+        <ul className="bg-green-500 text-white flex flex-col space-y-2 p-4 md:hidden text-base">
           <MobileNavItem to="/" label="Home" onClick={() => setMobileMenuOpen(false)} />
           <MobileNavItem to="/farmplan" label="My Farm" onClick={() => setMobileMenuOpen(false)} />
           <MobileNavItem to="/about" label="About" onClick={() => setMobileMenuOpen(false)} />
@@ -80,7 +85,10 @@ const Layout = () => {
               </button>
             </li>
           ) : (
-            <MobileNavItem to="/signin" label="Sign In" onClick={() => setMobileMenuOpen(false)} />
+            <>
+              <MobileNavItem to="/signin" label="Sign In" onClick={() => setMobileMenuOpen(false)} />
+              <MobileNavItem to="/register" label="Register" onClick={() => setMobileMenuOpen(false)} />
+            </>
           )}
         </ul>
       )}
@@ -98,7 +106,6 @@ const Layout = () => {
   );
 };
 
-// Desktop Nav Link Item
 const NavItem = ({ to, label }: { to: string; label: string }) => (
   <li>
     <NavLink
@@ -115,7 +122,6 @@ const NavItem = ({ to, label }: { to: string; label: string }) => (
   </li>
 );
 
-// Mobile Nav Link Item
 const MobileNavItem = ({
   to,
   label,

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../assets/logo.png"; 
-import NatureBg from "../assets/nature.jpg"; // Add your background image here
+import Logo from "../assets/logo.png";
+import NatureBg from "../assets/nature.jpg";
 
 const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
   const backend_api_url = import.meta.env.VITE_APP_API_URL;
@@ -16,7 +16,6 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
     confirmPassword: "",
   });
 
-  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -101,24 +100,30 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             </button>
           </div>
 
-         
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold"
           >
             Register
           </button>
+
           <p className="text-sm text-gray-700">
-      `    By registering, you agree to our{" "}
-          <a href="#/terms" className="text-green-700 underline hover:text-green-900">
-            Terms
-          </a>{" "}
-          and{" "}
-          <a href="#/privacy" className="text-green-700 underline hover:text-green-900">
-            Privacy Policy
-          </a>.
-         </p>
-`
+            By registering, you agree to our{" "}
+            <Link
+              to="/terms"
+              className="text-green-700 underline hover:text-green-900"
+            >
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link
+              to="/privacy"
+              className="text-green-700 underline hover:text-green-900"
+            >
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </form>
 
         <p className="text-center text-sm text-gray-700 mt-4">
