@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png"; 
 import NatureBg from "../assets/nature.jpg"; // Add your background image here
 
@@ -29,7 +29,11 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
           const location = res.data.location;
           setFormData((prev) => ({ ...prev, location }));
         } catch (err) {
+          const location = "Munich, Germany";
+          setFormData((prev) => ({ ...prev, location }));
+
           console.warn("Location fetch failed", err);
+
         }
       });
     }
@@ -140,19 +144,6 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             <option value="integrator">System Integrator</option>
             <option value="other">Other</option>
           </select>
-          <div className="flex items-center space-x-2 text-sm text-gray-700">
-          <input type="checkbox" required />
-          <label>
-            I agree to the{" "}
-            <a href="#/terms" className="text-green-700 underline hover:text-green-900">
-              Terms
-            </a>{" "}
-            and{" "}
-            <a href="#/privacy" className="text-green-700 underline hover:text-green-900">
-              Privacy Policy
-            </a>.
-          </label>
-        </div>
 
           <button
             type="submit"
