@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png"; 
 import NatureBg from "../assets/nature.jpg"; // Add your background image here
 
@@ -14,27 +14,9 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
     email: "",
     password: "",
     confirmPassword: "",
-    location: "",
-    role: "",
   });
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async (pos) => {
-        const { latitude, longitude } = pos.coords;
-        try {
-          const res = await axios.get(
-            `${backend_api_url}/api/reverse-geocode?lat=${latitude}&lon=${longitude}`
-          );
-          const location = res.data.location;
-          setFormData((prev) => ({ ...prev, location }));
-        } catch (err) {
-          console.warn("Location fetch failed", err);
-        }
-      });
-    }
-  }, []);
-
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -119,33 +101,24 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             </button>
           </div>
 
-          <input
-            type="text"
-            name="location"
-            placeholder="Location"
-            value={formData.location}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg bg-gray-100 cursor-not-allowed"
-            readOnly
-          />
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            required
-          >
-            <option value="">Select Role</option>
-            <option value="farmer">Farmer</option>
-            <option value="integrator">System Integrator</option>
-            <option value="other">Other</option>
-          </select>
+         
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold"
           >
             Register
           </button>
+          <p className="text-sm text-gray-700">
+      `    By registering, you agree to our{" "}
+          <a href="#/terms" className="text-green-700 underline hover:text-green-900">
+            Terms
+          </a>{" "}
+          and{" "}
+          <a href="#/privacy" className="text-green-700 underline hover:text-green-900">
+            Privacy Policy
+          </a>.
+         </p>
+`
         </form>
 
         <p className="text-center text-sm text-gray-700 mt-4">
