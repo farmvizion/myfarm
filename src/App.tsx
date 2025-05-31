@@ -29,7 +29,6 @@ const App: React.FC = () => {
         <Route path="reset-password/:token" element={<ResetPassword />} />
 
         <Route path="register" element={<RegisterWrapper />} />
-        <Route path="farmplan" element={<StylishForm />} />
 
         <Route
           path="forgotpassword"

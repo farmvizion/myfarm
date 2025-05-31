@@ -30,14 +30,21 @@ interface Crop {
 
 
 interface Query {
-  email: string;
+  id: number;
   name: string;
+  email: string;
   message: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+
 }
+
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [crops, setCrops] = useState<Crop[]>([]);
+  const [queries, setQueries] = useState<Query[]>([]);
   
   const [newUser, setNewUser] = useState<Partial<User>>({});
   const [newCrop, setNewCrop] = useState<Partial<Crop>>({});
@@ -45,11 +52,13 @@ const AdminDashboard = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [editingCrop, setEditingCrop] = useState<Crop | null>(null);
+  const [editingQuery, setEditingQuery] = useState<Query | null>(null);
+
   const [cropImage, setCropImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"users" | "crops">("users");
+  const [activeTab, setActiveTab] = useState<"users" | "crops" | "queries">("users");
   const { logout } = useAuth();
 
   // Fetch Users
@@ -101,6 +110,34 @@ const AdminDashboard = () => {
       setLoading(false);
     }
   };
+
+    // Fetch  Queries
+    const fetchQueries = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          setError("No authentication token found. Please log in.");
+          return;
+        }
+        const res = await axios.get(`${API_BASE_URL}/api/admin/list/queries`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (Array.isArray(res.data)) {
+           console.log(res.data);
+          setQueries(res.data);
+        } else {
+          console.log("Invalid data format received from server.");
+
+          setError("Invalid data format received from server.");
+        }
+      } catch (err) {
+        handleAxiosError(err, "Failed to fetch crops");
+      } finally {
+        setLoading(false);
+      }
+    };
 
   // Create User
   const createUser = async (e: React.FormEvent) => {
@@ -263,6 +300,56 @@ const AdminDashboard = () => {
     }
   };
 
+  // Update Query
+  const updateQuery = async (e: React.FormEvent, query: Query) => {
+    e.preventDefault();
+    if (!query.name) {
+      setError("Query name is required.");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        setError("No authentication token found. Please log in.");
+        return;
+      }
+
+
+
+      const payload = {
+        //name:query.name,
+        email:query.email,
+        message:query.message,
+        status:query.status
+      }
+      const body = JSON.stringify(payload);
+
+
+      await axios.patch(
+        `${API_BASE_URL}/api/admin/query/${query.id}`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+
+          },
+        }
+      );
+      setSuccess("Query updated successfully!");
+      setEditingQuery(null);
+      await fetchQueries();
+    } catch (err) {
+      handleAxiosError(err, "Failed to update query");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
   // Delete User
   const deleteUser = async (id: number) => {
     setLoading(true);
@@ -307,6 +394,29 @@ const AdminDashboard = () => {
     }
   };
 
+    // Delete Crop
+    const deleteQuery = async (id: number) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          setError("No authentication token found. Please log in.");
+          return;
+        }
+        await axios.delete(`${API_BASE_URL}/api/admin/query/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setSuccess("Query deleted successfully!");
+        await fetchQueries();
+      } catch (err) {
+        handleAxiosError(err, "Failed to delete query");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+
   // Reset Password
   const resetPassword = async (id: number) => {
     const newPassword = prompt("Enter new password (minimum 8 characters):");
@@ -348,9 +458,12 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (activeTab === "users") {
       fetchUsers();
-    } else {
+    } else if (activeTab === "crops")  {
       fetchCrops();
+    } else {
+      fetchQueries();
     }
+
   }, [activeTab]);
 
   return (
@@ -400,6 +513,16 @@ const AdminDashboard = () => {
           }`}
         >
           Crops
+        </button>
+        <button
+          onClick={() => setActiveTab("queries")}
+          className={`px-4 py-2 rounded-lg ${
+            activeTab === "queries"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          Queries
         </button>
       </div>
 
@@ -1135,6 +1258,120 @@ const AdminDashboard = () => {
           </table>
         </>
       )}
+
+        {/* Queries Section */}
+        {activeTab === "queries" && (
+        <>
+  
+
+          <table
+            className="w-full border-collapse"
+            aria-label="Queries management table"
+          >
+            <thead>
+              <tr className="bg-gray-200">
+              <th className="border p-2">ID</th>
+                <th className="border p-2">Name</th>
+                <th className="border p-2">E-mail</th>
+                <th className="border p-2">Message</th>
+                <th className="border p-2">Status</th>
+                <th className="border p-2">Created</th>
+                <th className="border p-2">Updated</th>
+                <th className="border p-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {queries.map((c) =>
+                editingQuery?.id === c.id ? (
+                  <tr key={c.id} className="border">
+                    <td colSpan={8} className="p-4">
+                      <form
+                        onSubmit={(e) => updateQuery(e, editingQuery)}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                      >
+
+
+
+                      <div className="md:col-span-2">
+                          <label
+                            htmlFor={`edit-query-status-${c.id}`}
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                          >
+                          Status                          
+                          </label>
+                          <textarea
+                            id={`edit-query-status-${c.id}`}
+                            placeholder="Enter status"
+                            value={editingQuery.status || ""}
+                            onChange={(e) =>
+                              setEditingQuery((prev) =>
+                                prev ? { ...prev, status: e.target.value } : prev
+                              )
+                            }
+                            className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            rows={4}
+                          />
+                        </div>
+                        <div className="md:col-span-2 flex gap-2">
+                          <button
+                            type="submit"
+                            disabled={loading}
+                            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                          >
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingQuery(null);
+                            }}
+                            disabled={loading}
+                            className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    </td>
+                  </tr>
+                ) : (
+                  <tr key={c.id} className="border">
+                    <td className="border p-2">{c.id}</td>
+  
+                    <td className="border p-2">{c.name}</td>
+                  
+                    <td className="border p-2">{c.email || ""}</td>
+                    <td className="border p-2">{c.message || ""}</td>
+
+                    <td className="border p-2">{c.status || ""}</td>
+                    <td className="border p-2">{c.created_at || ""}</td>
+                    <td className="border p-2">{c.updated_at || ""}</td>
+
+\
+                    <td className="border p-2 flex gap-2">
+                      <button
+                        onClick={() => setEditingQuery(c)}
+                        className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition-colors"
+                        disabled={loading}
+                      >
+                        🖌️ Edit
+                      </button>
+                      <button
+                        onClick={() => deleteQuery(c.id)}
+                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors"
+                        disabled={loading}
+                      >
+                        🗑 Delete
+                      </button>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        </>
+      )}
+
     </div>
   );
 };
