@@ -140,12 +140,37 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             <option value="integrator">System Integrator</option>
             <option value="other">Other</option>
           </select>
+          <div className="flex items-center space-x-2 text-sm text-gray-700">
+          <input type="checkbox" required />
+          <label>
+            I agree to the{" "}
+            <a href="#/terms" className="text-green-700 underline hover:text-green-900">
+              Terms
+            </a>{" "}
+            and{" "}
+            <a href="#/privacy" className="text-green-700 underline hover:text-green-900">
+              Privacy Policy
+            </a>.
+          </label>
+        </div>
+
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold"
           >
             Register
           </button>
+          <p className="text-sm text-gray-700">
+      `    By registering, you agree to our{" "}
+          <a href="#/terms" className="text-green-700 underline hover:text-green-900">
+            Terms
+          </a>{" "}
+          and{" "}
+          <a href="#/privacy" className="text-green-700 underline hover:text-green-900">
+            Privacy Policy
+          </a>.
+         </p>
+`
         </form>
 
         <p className="text-center text-sm text-gray-700 mt-4">

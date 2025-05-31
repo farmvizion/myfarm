@@ -14,6 +14,8 @@ import ForgotPassword from "./auth/ForgotPassword";
 import StylishForm from "./pages/FarmForm";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./AdminRoute";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -27,6 +29,9 @@ const App: React.FC = () => {
         <Route path="contact" element={<Contact />} />
         <Route path="signin" element={<SignInWrapper />} />
         <Route path="reset-password/:token" element={<ResetPassword />} />
+
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
 
         <Route path="register" element={<RegisterWrapper />} />
 
