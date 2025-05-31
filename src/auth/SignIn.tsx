@@ -4,6 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import Logo from "../assets/logo.png"; // Optional logo
 import NatureBg from "../assets/nature.jpg"; // Your background image
+import { GoogleLogin } from '@react-oauth/google';
+import type { CredentialResponse } from '@react-oauth/google';
+
 
 interface SignInProps {
   onToggle: () => void;
@@ -19,6 +22,34 @@ const SignIn: React.FC<SignInProps> = ({ onToggle }) => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+
+
+  const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+    if (credentialResponse.credential) {
+      try {
+        const res = await axios.post(`${backend_api_url}/api/auth/google`, {
+          credential: credentialResponse.credential,
+        });
+  
+        if (res.data.token) {
+          login(res.data.token, res.data.role);
+          setMessage("Signed in with Google!");
+          navigate("/");
+        } else {
+          setMessage("Invalid response from Google sign-in.");
+        }
+      } catch (err: any) {
+        console.error(err);
+        setMessage(
+          err.response?.data?.error || "Google Sign-in failed. Try again."
+        );
+      }
+    } else {
+      setMessage("No Google credential received.");
+    }
+  };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,6 +121,13 @@ const SignIn: React.FC<SignInProps> = ({ onToggle }) => {
             >
               {showPassword ? "Hide" : "Show"}
             </button>
+          </div>
+
+          <div className="mt-6">
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={() => setMessage("Google Sign-in was unsuccessful.")}
+            />
           </div>
 
           <button
