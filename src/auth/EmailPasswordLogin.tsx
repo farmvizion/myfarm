@@ -13,6 +13,11 @@ const EmailPasswordLogin: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
 
+
+  const clickedForgotPassword = () => {
+    navigate("/forgotpassword");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
@@ -65,6 +70,16 @@ const EmailPasswordLogin: React.FC = () => {
       >
         Sign In
       </button>
+      <p className="mt-3 text-sm text-right">
+          <button
+            type="button"
+            className="text-green-700 hover:underline"
+            onClick={clickedForgotPassword}
+          >
+            Forgot Password?
+          </button>
+        </p>
+
     </form>
   );
 };
