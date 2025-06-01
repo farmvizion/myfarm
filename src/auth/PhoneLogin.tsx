@@ -6,7 +6,7 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { useTranslation } from "react-i18next";
-import { app } from "../firebase";
+import { auth } from "../firebase";
 
 export default function PhoneLogin() {
   const { t } = useTranslation();
@@ -14,7 +14,6 @@ export default function PhoneLogin() {
   const [otp, setOtp] = useState("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
 
-const auth = getAuth(app);
 
   const setupRecaptcha = () => {
     (window as any).recaptchaVerifier = new RecaptchaVerifier(
