@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import EmailPasswordLogin from "./EmailPasswordLogin";
 import GoogleLoginButton from "./GoogleLoginButton";
 import PhoneLogin from "./PhoneLogin";
-import LanguageSelector from "../components/LanguageSelector";
 import { useTranslation } from "react-i18next";
 
 interface LoginSelectorProps {
@@ -16,9 +15,6 @@ const LoginSelector: React.FC<LoginSelectorProps> = ({ onToggle }) => {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gradient-to-tr from-green-100 via-green-50 to-white px-4">
         {/* Top bar */}
-        <header className="w-full flex items-center justify-start p-4 border-b border-gray-200 bg-white/90 backdrop-blur-md">
-          <LanguageSelector />
-        </header>
   
         {!method ? (
           <div className="max-w-md w-full p-8 bg-white/90 rounded-xl shadow-lg backdrop-blur-md text-center">

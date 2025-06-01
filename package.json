@@ -16,7 +16,7 @@
     "@tailwindcss/postcss": "^4.1.7",
     "axios": "^1.9.0",
     "cors": "^2.8.5",
-    "firebase": "^11.8.1",
+    "firebase": "^10.x.x",
     "framer-motion": "^12.12.1",
     "google-auth-library": "^9.15.1",
     "i18next": "^25.2.1",

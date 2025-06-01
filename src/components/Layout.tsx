@@ -2,8 +2,11 @@ import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const Layout = () => {
+  const { i18n } = useTranslation();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isAuthenticated, userRole, logout } = useAuth();
   const navigate = useNavigate();
@@ -27,6 +30,19 @@ const Layout = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 items-center text-sm md:text-base">
+          {/* Language Selector - Desktop */}
+<div className="hidden md:block ml-4">
+<select
+  value={i18n.language}
+  onChange={(e) => i18n.changeLanguage(e.target.value)}
+  className="bg-white border text-gray-800 text-sm rounded px-3 py-1 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+  aria-label="Select language"
+>
+  <option value="en">🇺🇸 English</option>
+  <option value="de">🇩🇪 Deutsch</option>
+  <option value="hi">🇮🇳 हिन्दी</option>
+</select>
+</div>
           <NavItem to="/" label="Home" />
           <NavItem to="/farmplan" label="My Farm" />
           <NavItem to="/about" label="About" />
@@ -90,6 +106,20 @@ const Layout = () => {
               <MobileNavItem to="/register" label="Register" onClick={() => setMobileMenuOpen(false)} />
             </>
           )}
+          {/* Language Selector - Mobile */}
+<li>
+<select
+  value={i18n.language}
+  onChange={(e) => i18n.changeLanguage(e.target.value)}
+  className="bg-white border text-gray-800 text-sm rounded px-3 py-1 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+  aria-label="Select language"
+>
+  <option value="en">🇺🇸 English</option>
+  <option value="de">🇩🇪 Deutsch</option>
+  <option value="hi">🇮🇳 हिन्दी</option>
+</select>
+</li>
+
         </ul>
       )}
 

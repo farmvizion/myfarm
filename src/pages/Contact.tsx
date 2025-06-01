@@ -1,16 +1,19 @@
 import React from "react";
 import { FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+
 
 const Contact = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-gradient-to-b from-green-50 to-green-100 text-gray-800 px-4 py-20 font-sans">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-green-800 mb-4">
-          Contact Us
-        </h1>
+          {t("ContactUs")}        </h1>
         <p className="text-center text-lg text-green-700 mb-4">
-          Got questions or want to collaborate? Reach out to us at{" "}
+          {t("GotQuestions-")}{" "}
           <a
             href="mailto:developer@farmvizion.com"
             className="text-green-900 font-medium underline hover:text-green-700"
