@@ -8,7 +8,6 @@ import Contact from "./pages/Contact";
 import SignInWrapper from "./auth/SignInWrapper";
 import RegisterWrapper from "./auth/RegisterWrapper";
 import ProtectedRoute from "./ProtectedRoute";
-import FarmPlan from "./pages/FarmPlan";
 import ResetPassword from "./auth/ResetPassword";  // fixed import name here
 import ForgotPassword from "./auth/ForgotPassword";
 import StylishForm from "./pages/FarmForm";

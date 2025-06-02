@@ -3,18 +3,51 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import NatureBg from "../assets/nature.jpg";
+import { useTranslation } from "react-i18next";
+import { useAuth } from "../context/AuthContext";
+
+// Define interface for form data
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  countryCode: string;
+  password: string;
+  confirmPassword: string;
+}
+
+// Define interface for API payload
+interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+}
 
 const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
+  const { t } = useTranslation();
+  const { login } = useAuth();
+
   const backend_api_url = import.meta.env.VITE_APP_API_URL;
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
+    phone: "",
+    countryCode: "+91", // Default to India
     password: "",
     confirmPassword: "",
   });
+
+  const countryOptions = [
+    { code: "+91", flag: "🇮🇳", name: "India" },
+    { code: "+49", flag: "🇩🇪", name: "Germany" },
+    { code: "+1", flag: "🇺🇸", name: "USA" },
+    { code: "+31", flag: "🇳🇱", name: "Netherlands" },
+  ];
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -29,12 +62,45 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
       return;
     }
     try {
-      await axios.post(`${backend_api_url}/api/register`, formData);
-      alert("Registration successful!");
-      navigate("/");
+      const payload: RegisterPayload = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      };
+
+      // Append mobile to payload if mobile is provided
+      if (formData.phone) {
+        payload.phone = `${formData.countryCode}${formData.phone}`;
+      } else {
+        payload.phone= formData.email;
+      }
+
+
+      await axios.post(`${backend_api_url}/api/register`, payload);
+      const loginResponse = await axios.post(`${backend_api_url}/api/login`, {
+        email: formData.email,
+        password: formData.password,
+      });
+      if (loginResponse.data.token) {
+        login(loginResponse.data.token, loginResponse.data.role);
+        navigate("/");
+        //alert("Registration successful!");
+      }
     } catch (err: any) {
       console.error("Registration failed:", err.response?.data || err.message);
-      alert("Registration failed.");
+      if (
+        err.response?.data?.errno === 19 &&
+        err.response?.data?.code === "SQLITE_CONSTRAINT" &&
+        err.response?.data?.message.includes("users.phone")
+      ) {
+        alert(
+          "This phone number is already registered. Please enter a different number or generate a new one."
+        );
+        // Optionally clear the mobile field to encourage retry
+        setFormData({ ...formData, phone: "" });
+      } else {
+        alert("Registration failed: " + (err.response?.data?.message || err.message));
+      }
     }
   };
 
@@ -72,6 +138,31 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             required
           />
+          <div className="flex space-x-2">
+            <select
+              name="countryCode"
+              value={formData.countryCode}
+              onChange={handleChange}
+              className="w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              {countryOptions.map((option) => (
+                <option key={option.code} value={option.code}>
+                  {option.flag} {option.code}
+                </option>
+              ))}
+            </select>
+            <div className="flex w-2/3 space-x-2">
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Mobile Number (Optional)"
+                value={formData.phone}
+                onChange={handleChange}
+                className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            
+            </div>
+          </div>
           <input
             type="password"
             name="password"
@@ -108,7 +199,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
           </button>
 
           <p className="text-sm text-gray-700">
-            By registering, you agree to our{" "}
+            {t("registerAgreement")}{" "}
             <Link
               to="/terms"
               className="text-green-700 underline hover:text-green-900"
@@ -139,5 +230,5 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
     </div>
   );
 };
-
 export default Register;
+

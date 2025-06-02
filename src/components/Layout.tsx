@@ -41,6 +41,8 @@ const Layout = () => {
   <option value="en">🇺🇸 English</option>
   <option value="de">🇩🇪 Deutsch</option>
   <option value="hi">🇮🇳 हिन्दी</option>
+  <option value="te">🇮🇳 Telugu</option>
+  <option value="or">🇮🇳 Odia</option>
 </select>
 </div>
           <NavItem to="/" label="Home" />
@@ -117,6 +119,8 @@ const Layout = () => {
   <option value="en">🇺🇸 English</option>
   <option value="de">🇩🇪 Deutsch</option>
   <option value="hi">🇮🇳 हिन्दी</option>
+  <option value="te">🇮🇳 Telugu</option>
+  <option value="or">🇮🇳 Odia</option>
 </select>
 </li>
 

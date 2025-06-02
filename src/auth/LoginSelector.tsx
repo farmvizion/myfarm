@@ -3,6 +3,7 @@ import EmailPasswordLogin from "./EmailPasswordLogin";
 import GoogleLoginButton from "./GoogleLoginButton";
 import PhoneLogin from "./PhoneLogin";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 interface LoginSelectorProps {
   onToggle: () => void;
@@ -72,6 +73,27 @@ const LoginSelector: React.FC<LoginSelectorProps> = ({ onToggle }) => {
                 {t("loginWithPhone")}
               </button>
             </div>
+
+            
+
+          <p className="mt-8 text-sm text-gray-700">
+          {t("loginAgreement")}{" "}
+          <Link
+              to="/terms"
+              className="text-green-700 underline hover:text-green-900"
+            >
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link
+              to="/privacy"
+              className="text-green-700 underline hover:text-green-900"
+            >
+              Privacy Policy
+            </Link>
+            .
+          </p>
+
             <p className="mt-8 text-sm text-gray-700">
               {t("dontHaveAccount")}{" "}
               <button

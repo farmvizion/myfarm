@@ -1,24 +1,33 @@
 import { useState } from "react";
-
 import {
-    getAuth,
+  getAuth,
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
+
+const countryOptions = [
+  { code: "+91", flag: "🇮🇳", name: "India" },
+  { code: "+49", flag: "🇩🇪", name: "Germany" },
+  { code: "+1", flag: "🇺🇸", name: "USA" },
+  { code: "+31", flag: "🇳🇱", name: "Netherlands" },
+];
 
 export default function PhoneLogin() {
   const { t } = useTranslation();
-  const [phone, setPhone] = useState("");
+  const navigate = useNavigate();
+
+  const [countryCode, setCountryCode] = useState("+91");
+  const [localPhone, setLocalPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
 
-
   const setupRecaptcha = () => {
     (window as any).recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-      "recaptcha-container", // The ID of the HTML element for reCAPTCHA
+      auth,
+      "recaptcha-container",
       {
         size: "invisible",
         callback: () => {
@@ -27,43 +36,44 @@ export default function PhoneLogin() {
       }
     );
   };
+
   const handleSendOTP = async () => {
-    setupRecaptcha()
+    setupRecaptcha();
     const recaptchaVerifier = (window as any).recaptchaVerifier;
     if (!recaptchaVerifier) {
-        console.log("reCAPTCHA not initialized. Please try again.");
+      console.log("reCAPTCHA not initialized. Please try again.");
       return;
     }
+
+    const fullPhoneNumber = `${countryCode}${localPhone}`;
 
     try {
       const confirmationResult = await signInWithPhoneNumber(
         auth,
-        phone,
+        fullPhoneNumber,
         recaptchaVerifier
       );
-      console.log("SMS sent", confirmationResult);
-      console.log(""); // Clear any previous errors
-      // Handle OTP confirmation (e.g., prompt for code)
+      setConfirmationResult(confirmationResult);
+      console.log("SMS sent");
     } catch (error: any) {
       console.error("Error during sign-in:", error);
       if (error.code === "auth/billing-not-enabled") {
-        console.log(
-          "Phone authentication requires a billing account. Please enable billing in the Firebase Console."
-        );
+        alert("Phone authentication not yet enabled. Please try login using email or through Google");
+        navigate("/signin"); // ✅ Navigate to LoginSelector
       } else if (error.code === "auth/invalid-phone-number") {
-        console.log("Invalid phone number format. Please use E.164 format (e.g., +1234567890).");
+        alert("Invalid phone number. Please use E.164 format (e.g., +91 7790497337).");
       } else {
-        console.log("An error occurred during authentication. Please try again.");
+        alert("Authentication error. Try again.");
       }
     }
   };
+
   const handleVerifyOTP = async () => {
     try {
       const result = await confirmationResult.confirm(otp);
       const user = result.user;
       console.log("User signed in", user);
       alert("Login success");
-      // You can now send `user.phoneNumber` to your backend to create a JWT or session
     } catch (err) {
       alert("Invalid OTP");
     }
@@ -75,13 +85,28 @@ export default function PhoneLogin() {
         <h2 className="text-2xl font-bold mb-4 text-green-800 text-center">
           {t("signInWithPhone")}
         </h2>
-        <input
-          className="border border-green-400 p-2 rounded-md w-full mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
-          type="text"
-          placeholder={t("enterPhoneNumber")}
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
+
+        <div className="flex space-x-2 mb-4">
+          <select
+            value={countryCode}
+            onChange={(e) => setCountryCode(e.target.value)}
+            className="w-1/3 px-2 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            {countryOptions.map((opt) => (
+              <option key={opt.code} value={opt.code}>
+                {opt.flag} {opt.code}
+              </option>
+            ))}
+          </select>
+          <input
+            className="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            type="tel"
+            placeholder={t("Mobile Number")}
+            value={localPhone}
+            onChange={(e) => setLocalPhone(e.target.value)}
+          />
+        </div>
+
         <button
           onClick={handleSendOTP}
           className="bg-green-600 text-white py-2 px-4 rounded-md w-full hover:bg-green-700 transition"

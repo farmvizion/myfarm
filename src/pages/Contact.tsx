@@ -13,12 +13,11 @@ const Contact = () => {
         <h1 className="text-4xl font-bold text-center text-green-800 mb-4">
           {t("ContactUs")}        </h1>
         <p className="text-center text-lg text-green-700 mb-4">
-          {t("GotQuestions-")}{" "}
           <a
             href="mailto:developer@farmvizion.com"
             className="text-green-900 font-medium underline hover:text-green-700"
           >
-            developer@farmvizion.com
+          {t("GotQuestions-")}{" "}
           </a>
         </p>
 
@@ -45,7 +44,7 @@ const Contact = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-2xl font-semibold mb-4 text-green-800">
-              Germany - India - Netherlands - USA
+              {t("countries")}
             </h2>
             <div className="w-full rounded-xl overflow-hidden shadow-lg border border-green-200">
               <iframe
