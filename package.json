@@ -27,6 +27,7 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "react": "^19.1.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^19.1.0",
     "react-facebook-login-lite": "^1.0.0",
     "react-i18next": "^15.5.2",

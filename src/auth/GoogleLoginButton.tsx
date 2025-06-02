@@ -3,7 +3,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import type { CredentialResponse } from "@react-oauth/google";
+import { isMobile } from "react-device-detect";
 
 const GoogleLoginButton: React.FC = () => {
   const backend_api_url = import.meta.env.VITE_APP_API_URL;
@@ -12,7 +12,7 @@ const GoogleLoginButton: React.FC = () => {
 
   const [message, setMessage] = useState("");
 
-  const handleSuccess = async (credentialResponse: CredentialResponse) => {
+  const handleSuccess = async (credentialResponse: any) => {
     if (credentialResponse.credential) {
       try {
         const res = await axios.post(`${backend_api_url}/api/auth/google`, {
@@ -33,10 +33,29 @@ const GoogleLoginButton: React.FC = () => {
     }
   };
 
+  if (isMobile) {
+    return (
+      <div className="text-center">
+        {message && <p className="text-red-600 mb-2">{message}</p>}
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            window.location.href = `${backend_api_url}/api/auth/google/redirect`;
+          }}
+        >
+          Sign in with Google
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="text-center">
       {message && <p className="text-red-600 mb-2">{message}</p>}
-      <GoogleLogin onSuccess={handleSuccess} onError={() => setMessage("Google Sign-in was unsuccessful.")} />
+      <GoogleLogin
+        onSuccess={handleSuccess}
+        onError={() => setMessage("Google Sign-in was unsuccessful.")}
+      />
     </div>
   );
 };
