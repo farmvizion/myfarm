@@ -49,35 +49,7 @@ const Home = () => {
             {t("titleText")}
           </p>
 
-          {!showVideo ? (
-            <button
-              onClick={() => setShowVideo(true)}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition focus:outline-none focus:ring-4 focus:ring-green-400"
-              aria-label={t("watchVideo")}
-            >
-              {t("watchVideo")}
-            </button>
-          ) : (
-            <div className="relative aspect-video w-full max-w-xl mx-auto rounded-lg overflow-hidden shadow-lg mt-6">
-              <iframe
-                src="https://www.youtube.com/embed/br4h19Tv0ok?autoplay=1"
-                title="Farmvizion Overview"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              ></iframe>
-
-              {/* Close Button */}
-              <button
-                onClick={() => setShowVideo(false)}
-                className="absolute top-2 right-2 bg-white text-gray-800 rounded-full px-2 py-1 text-sm font-bold shadow hover:bg-red-500 hover:text-white transition focus:outline-none"
-                aria-label={t("closeVideo")}
-              >
-                ✕
-              </button>
-            </div>
-          )}
+        
         </div>
       </section>
 
