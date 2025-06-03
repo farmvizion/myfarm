@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  base: '/myfarm/', // Important for GitHub Pages or subpath
   plugins: [
     react(),
     VitePWA({
@@ -16,8 +15,8 @@ export default defineConfig({
         theme_color: '#4CAF50',
         background_color: '#ffffff',
         display: 'standalone',
-        scope: '/myfarm/',
-        start_url: '/myfarm/index.html',
+        scope: '/',
+        start_url: '/',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -41,7 +40,13 @@ export default defineConfig({
             type: 'image/png'
           }
         ]
+      },
+      devOptions: {
+        enabled: true, // 👈 Enable service worker in dev
+        type: 'module',
+        navigateFallback: 'index.html'
       }
     })
-  ]
+  ],
+  base: '/',
 })
