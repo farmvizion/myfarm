@@ -45,12 +45,7 @@ const GoogleLoginButton: React.FC = () => {
         <p className="mb-4 text-gray-700">
           Google Sign-In isn’t supported on this device. Please register and choose "Login with e-mail".
         </p>
-        <button
-          onClick={() => navigate("/login")}
-          className="btn btn-primary"
-        >
-          Go to Login Options
-        </button>
+
       </div>
     );
   }
@@ -64,7 +59,7 @@ const GoogleLoginButton: React.FC = () => {
    // If popup fails (desktop), send user to Login Selector
   const handleError = () => {
     setMessage("Google Sign-in failed. Redirecting to other options...");
-    navigate("/login");
+    navigate("/signin");
   };
 
   const handleSuccess = async (credentialResponse: any) => {
