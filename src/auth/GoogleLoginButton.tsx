@@ -43,7 +43,7 @@ const GoogleLoginButton: React.FC = () => {
       <div className="text-center">
         {message && <p className="text-red-600 mb-2">{message}</p>}
         <p className="mb-4 text-gray-700">
-          Google Sign-In isn’t supported on this device. Please choose platform login method.
+          Google Sign-In isn’t supported on this device. Please register and choose "Login with e-mail".
         </p>
         <button
           onClick={() => navigate("/login")}
