@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { isMobile } from "react-device-detect";
 
-// Extend Navigator to support userAgentData
+
+// Extend Navigator for userAgentData in TS
 declare global {
   interface NavigatorUAData {
     platform: string;
   }
-
   interface Navigator {
     userAgentData?: NavigatorUAData;
   }
@@ -22,12 +22,43 @@ const GoogleLoginButton: React.FC = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
 
-  const isTouchDevice = navigator.maxTouchPoints > 1;
-  const ua = navigator.userAgent || "";
 
-  const isIPad = /\b(iPad)\b/.test(ua) || (/\bMacintosh\b/.test(ua) && isTouchDevice);
 
-  const forceRedirect = isMobile || isIPad;
+  // Robust iPad detection (iPadOS often reports as Mac with touch)
+  const isIPad = (() => {
+    const uaData = navigator.userAgentData;
+    if (uaData) {
+      return (
+        uaData.platform === "iPad" ||
+        (uaData.platform === "macOS" && navigator.maxTouchPoints > 1)
+      );
+    }
+    const ua = navigator.userAgent || "";
+    return /\b(iPad)\b/.test(ua) || (/\bMacintosh\b/.test(ua) && navigator.maxTouchPoints > 1);
+  })();
+
+  // If iPad, skip Google entirely
+  if (isIPad) {
+    return (
+      <div className="text-center">
+        {message && <p className="text-red-600 mb-2">{message}</p>}
+        <p className="mb-4 text-gray-700">
+          Google Sign-In isn’t supported on this device. Please choose platform login method.
+        </p>
+        <button
+          onClick={() => navigate("/login")}
+          className="btn btn-primary"
+        >
+          Go to Login Options
+        </button>
+      </div>
+    );
+  }
+
+
+
+  // Desktop vs Android/other mobile
+  const forceRedirect = isMobile; // on Android or other phones, use redirect
 
 
    // If popup fails (desktop), send user to Login Selector
