@@ -22,25 +22,12 @@ const GoogleLoginButton: React.FC = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
 
-  // Detect iPad including newer iPadOS using macOS + touch
-  const isIPad = (() => {
-    const uaData = navigator.userAgentData;
-    if (uaData) {
-      return (
-        uaData.platform === "iPad" ||
-        (uaData.platform === "macOS" && navigator.maxTouchPoints > 1)
-      );
-    }
+  const isTouchDevice = navigator.maxTouchPoints > 1;
+  const ua = navigator.userAgent || "";
 
-    const ua = navigator.userAgent || "";
-    return (
-      /\biPad\b/.test(ua) ||
-      (/\bMacintosh\b/.test(ua) && navigator.maxTouchPoints > 1)
-    );
-  })();
+  const isIPad = /\b(iPad)\b/.test(ua) || (/\bMacintosh\b/.test(ua) && isTouchDevice);
 
   const forceRedirect = isMobile || isIPad;
-
   const handleSuccess = async (credentialResponse: any) => {
     if (!credentialResponse.credential) {
       setMessage("No Google credential received.");
@@ -62,6 +49,9 @@ const GoogleLoginButton: React.FC = () => {
       setMessage(err.response?.data?.error || "Google Sign-in failed. Try again.");
     }
   };
+  
+  
+
 
   if (forceRedirect) {
     return (
