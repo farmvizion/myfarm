@@ -28,6 +28,14 @@ const GoogleLoginButton: React.FC = () => {
   const isIPad = /\b(iPad)\b/.test(ua) || (/\bMacintosh\b/.test(ua) && isTouchDevice);
 
   const forceRedirect = isMobile || isIPad;
+
+
+   // If popup fails (desktop), send user to Login Selector
+  const handleError = () => {
+    setMessage("Google Sign-in failed. Redirecting to other options...");
+    navigate("/login");
+  };
+
   const handleSuccess = async (credentialResponse: any) => {
     if (!credentialResponse.credential) {
       setMessage("No Google credential received.");
@@ -50,8 +58,6 @@ const GoogleLoginButton: React.FC = () => {
     }
   };
   
-  
-
 
   if (forceRedirect) {
     return (
@@ -74,7 +80,7 @@ const GoogleLoginButton: React.FC = () => {
       {message && <p className="text-red-600 mb-2">{message}</p>}
       <GoogleLogin
         onSuccess={handleSuccess}
-        onError={() => setMessage("Google Sign-in was unsuccessful.")}
+        onError={handleError}
       />
     </div>
   );
