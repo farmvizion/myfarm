@@ -15,6 +15,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./AdminRoute";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import Map from "./pages/Map";
+
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +32,8 @@ const App: React.FC = () => {
         <Route path="reset-password/:token" element={<ResetPassword />} />
 
         <Route path="/terms" element={<Terms />} />
+        <Route path="/map" element={<Map />} />
+
         <Route path="/privacy" element={<Privacy />} />
 
         <Route path="register" element={<RegisterWrapper />} />
