@@ -1,4 +1,3 @@
-import Logo from '../assets/drone.jpg' // Adjust the path if needed
 import { useTranslation } from "react-i18next";
 
 const About = () => {
@@ -7,18 +6,16 @@ const About = () => {
   return (
     <div className="bg-white text-gray-800 px-4 py-16">
       <div className="max-w-5xl mx-auto text-center">
-        {/* Logo */}
-        <img
-          src={Logo} // Adjust path if needed
-          alt="Farmvizion Logo"
-          className="mx-auto mb-8 h-24 w-24 object-contain"
-        />
 
         <h1 className="text-4xl font-bold mb-8">About Us</h1>
 
-        <p className="text-lg max-w-3xl mx-auto mb-12">
-           <span className="font-semibold text-green-600">{t("AtFarmVizion-")}</span>
-        </p>
+       <div className="max-w-3xl mx-auto mb-12 p-6 bg-green-50 rounded-xl shadow-lg border border-green-50">
+  <p className="text-lg text-gray-700">
+    <span className="font-semibold text-gray-700">
+      {t("AtFarmVizion-")}
+    </span>
+  </p>
+</div>
 
         <div className="grid md:grid-cols-2 gap-10">
           <div className="bg-green-50 p-6 rounded-xl shadow">

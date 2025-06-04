@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/fvtrans.png";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 import PWAInstallButton from "./PWAInstallButton";

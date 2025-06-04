@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../assets/logo.png";
+import Logo from "../assets/fvtrans.png";
 import NatureBg from "../assets/nature.jpg";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";

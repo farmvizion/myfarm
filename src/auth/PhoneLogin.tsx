@@ -80,10 +80,10 @@ export default function PhoneLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[url('/nature-bg.jpg')] bg-cover flex items-center justify-center">
-      <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-lg w-full max-w-md">
+      <div className="bg-white flex  justify-center">
+      <div className="bg-white backdrop-blur-md p-6 rounded-2xl shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4 text-green-800 text-center">
-          {t("signInWithPhone")}
+          Mobile Phone
         </h2>
 
         <div className="flex space-x-2 mb-4">

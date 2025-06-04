@@ -4,6 +4,8 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import PhoneLogin from "./PhoneLogin";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+
 
 interface LoginSelectorProps {
   onToggle: () => void;
@@ -106,12 +108,16 @@ const LoginSelector: React.FC<LoginSelectorProps> = ({ onToggle }) => {
           </div>
         ) : (
           <div className="max-w-md w-full p-8 bg-white/90 rounded-xl shadow-lg backdrop-blur-md">
-            <button
-              onClick={() => setMethod(null)}
-              className="mb-6 text-sm text-green-700 hover:underline"
-            >
-              &larr; {t("back_to_login_selection")}
-            </button>
+        <button
+  onClick={() => setMethod(null)}
+  className="mb-6 inline-flex items-center gap-2 text-green-700 hover:text-green-900 font-medium text-sm sm:text-base transition duration-200 group"
+>
+  <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+  <span className="underline underline-offset-2 group-hover:underline-offset-4">
+    {t("backToLoginMethod")}
+  </span>
+</button>
+
   
             {method === "email" && <EmailPasswordLogin />}
             {method === "google" && <GoogleLoginButton />}
