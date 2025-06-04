@@ -220,7 +220,7 @@ const FarmForm: React.FC = () => {
             className="bg-white/90 p-6 rounded-xl shadow-xl space-y-6 border border-green-200"
           >
             <h2 className="text-3xl font-bold text-green-800 text-center mb-4 tracking-wide">
-              🌿 Welcome to My Farm – Willkommen auf meiner Farm!
+              🌿 Welcome to My Farm 
             </h2>
 
             {/* Weather Info */}
