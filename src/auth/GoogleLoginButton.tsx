@@ -73,10 +73,11 @@ const GoogleLoginButton: React.FC = () => {
         credential: credentialResponse.credential,
       });
 
-      if (res.data.token) {
-        login(res.data.token, res.data.role);
-        navigate("/");
-      } else {
+     if (res.data.token && res.data.user) {
+      const { token, role, user } = res.data;
+      login(token, role, { name: user.name, email: user.email });
+      navigate("/");
+    } else {
         setMessage("Invalid response from Google sign-in.");
       }
     } catch (err: any) {

@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+
+import { useAuth } from "../context/AuthContext";
+
 import RiceImage from "../assets/rice.jpg";
 import WheatImage from "../assets/wheat.jpeg";
 import AppleImage from "../assets/apple.jpg";
@@ -36,7 +39,13 @@ const items = [
 
 
 const FarmForm: React.FC = () => {
+const { user } = useAuth(); // assumes user = { name, email, ... }
 
+const [formData, setFormData] = useState({
+  name: user?.name || "",
+  email: user?.email || "",
+  message: "",
+});
 
 
   function getWeatherIconAndText(code: number) {
@@ -66,7 +75,6 @@ const FarmForm: React.FC = () => {
 
   // 🔹 State
   const [selectedItems, setSelectedItems] = useState<Record<number, boolean>>({});
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [success, setSuccess] = useState(false);
   const [recommendedCrops, setRecommendedCrops] = useState<string[]>([]);
   const [soilMoisture, setSoilMoisture] = useState<number | null>(null);
@@ -219,10 +227,12 @@ const FarmForm: React.FC = () => {
             onSubmit={handleSubmit}
             className="bg-white/90 p-6 rounded-xl shadow-xl space-y-6 border border-green-200"
           >
-            <h2 className="text-3xl font-bold text-green-800 text-center mb-4 tracking-wide">
-              🌿 Welcome to My Farm 
-            </h2>
-
+            <h2 className="text-2xl font-bold text-green-800 text-center mb-4 tracking-wide">
+  🌿 Welcome {user?.name || "Guest"}
+  {user?.email && user?.email !== user?.name && (
+    <div className="text-base font-medium text-green-700 mt-1">{user.email}</div>
+  )}
+</h2>
             {/* Weather Info */}
             <div className="bg-white/80 p-4 rounded-lg shadow mb-6">
             <h3 className="text-xl font-semibold text-green-700 mb-2">🌤️ Local Weather Info</h3>

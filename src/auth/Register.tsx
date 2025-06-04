@@ -56,53 +56,57 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
-      return;
+  e.preventDefault();
+
+  if (formData.password !== formData.confirmPassword) {
+    alert("Passwords do not match.");
+    return;
+  }
+
+  try {
+    const payload: RegisterPayload = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+    };
+
+    // Append mobile to payload if mobile is provided
+    if (formData.phone) {
+      payload.phone = `${formData.countryCode}${formData.phone}`;
+    } else {
+      payload.phone = formData.email;
     }
-    try {
-      const payload: RegisterPayload = {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      };
 
-      // Append mobile to payload if mobile is provided
-      if (formData.phone) {
-        payload.phone = `${formData.countryCode}${formData.phone}`;
-      } else {
-        payload.phone= formData.email;
-      }
+    await axios.post(`${backend_api_url}/api/register`, payload);
 
+    const loginResponse = await axios.post(`${backend_api_url}/api/login`, {
+      email: formData.email,
+      password: formData.password,
+    });
 
-      await axios.post(`${backend_api_url}/api/register`, payload);
-      const loginResponse = await axios.post(`${backend_api_url}/api/login`, {
-        email: formData.email,
-        password: formData.password,
-      });
-      if (loginResponse.data.token) {
-        login(loginResponse.data.token, loginResponse.data.role);
-        navigate("/");
-        //alert("Registration successful!");
-      }
-    } catch (err: any) {
-      console.error("Registration failed:", err.response?.data || err.message);
-      if (
-        err.response?.data?.errno === 19 &&
-        err.response?.data?.code === "SQLITE_CONSTRAINT" &&
-        err.response?.data?.message.includes("users.phone")
-      ) {
-        alert(
-          "This phone number is already registered. Please enter a different number or generate a new one."
-        );
-        // Optionally clear the mobile field to encourage retry
-        setFormData({ ...formData, phone: "" });
-      } else {
-        alert("Registration failed: " + (err.response?.data?.message || err.message));
-      }
+    if (loginResponse.data.token) {
+      const { token, role, user } = loginResponse.data;
+      login(token, role, user); // updated to pass the full user object
+      navigate("/");
     }
-  };
+  } catch (err: any) {
+    console.error("Registration failed:", err.response?.data || err.message);
+
+    if (
+      err.response?.data?.errno === 19 &&
+      err.response?.data?.code === "SQLITE_CONSTRAINT" &&
+      err.response?.data?.message.includes("users.phone")
+    ) {
+      alert(
+        "This phone number is already registered. Please enter a different number or generate a new one."
+      );
+      setFormData({ ...formData, phone: "" });
+    } else {
+      alert("Registration failed: " + (err.response?.data?.message || err.message));
+    }
+  }
+};
+
 
   return (
     <div

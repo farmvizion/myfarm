@@ -56,72 +56,75 @@ const SignIn: React.FC<SignInProps> = ({ onToggle }) => {
     }
   };
 
-  const handleVerifyOTP = async () => {
-    setMessage("");
-    try {
-      const result = await confirmationResult.confirm(otp);
-      const phoneNumber = result.user.phoneNumber;
+ const handleVerifyOTP = async () => {
+  setMessage("");
+  try {
+    const result = await confirmationResult.confirm(otp);
+    const phoneNumber = result.user.phoneNumber;
 
-      const res = await axios.post(`${backend_api_url}/api/auth/phone`, {
-        phone: phoneNumber,
-      });
+    const res = await axios.post(`${backend_api_url}/api/auth/phone`, {
+      phone: phoneNumber,
+    });
 
-      if (res.data.token) {
-        login(res.data.token, res.data.role);
-        navigate("/");
-      } else {
-        setMessage("Failed to authenticate via phone.");
-      }
-    } catch (err) {
-      console.error("OTP verification failed", err);
-      setMessage("Invalid OTP. Please try again.");
-    }
-  };
-
-  const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-    if (credentialResponse.credential) {
-      try {
-        const res = await axios.post(`${backend_api_url}/api/auth/google`, {
-          credential: credentialResponse.credential,
-        });
-
-        if (res.data.token) {
-          login(res.data.token, res.data.role);
-          setMessage("Signed in with Google!");
-          navigate("/");
-        } else {
-          setMessage("Invalid response from Google sign-in.");
-        }
-      } catch (err: any) {
-        console.error(err);
-        setMessage(err.response?.data?.error || "Google Sign-in failed. Try again.");
-      }
+    if (res.data.token && res.data.user) {
+      const { token, role, user } = res.data;
+      login(token, role, { name: user.name, email: user.email });
+      navigate("/");
     } else {
-      setMessage("No Google credential received.");
+      setMessage("Failed to authenticate via phone.");
     }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage("");
-
+  } catch (err) {
+    console.error("OTP verification failed", err);
+    setMessage("Invalid OTP. Please try again.");
+  }
+};
+const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
+  if (credentialResponse.credential) {
     try {
-      const res = await axios.post(`${backend_api_url}/api/login`, {
-        email,
-        password,
+      const res = await axios.post(`${backend_api_url}/api/auth/google`, {
+        credential: credentialResponse.credential,
       });
 
-      if (res.data.token) {
-        login(res.data.token, res.data.role);
+      if (res.data.token && res.data.user) {
+        const { token, role, user } = res.data;
+        login(token, role, { name: user.name, email: user.email });
+        setMessage("Signed in with Google!");
         navigate("/");
       } else {
-        setMessage("Invalid response from server.");
+        setMessage("Invalid response from Google sign-in.");
       }
     } catch (err: any) {
       console.error(err);
-      setMessage(err.response?.data?.error || "Sign in failed. Please check your credentials.");
+      setMessage(err.response?.data?.error || "Google Sign-in failed. Try again.");
     }
-  };
+  } else {
+    setMessage("No Google credential received.");
+  }
+};
+
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setMessage("");
+
+  try {
+    const res = await axios.post(`${backend_api_url}/api/login`, {
+      email,
+      password,
+    });
+
+    if (res.data.token && res.data.user) {
+      const { token, role, user } = res.data;
+      login(token, role, { name: user.name, email: user.email });
+      navigate("/");
+    } else {
+      setMessage("Invalid response from server.");
+    }
+  } catch (err: any) {
+    console.error(err);
+    setMessage(err.response?.data?.error || "Sign in failed. Please check your credentials.");
+  }
+};
+
 
   const clickedForgotPassword = () => {
     navigate("/forgotpassword");

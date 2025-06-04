@@ -24,10 +24,11 @@ const EmailPasswordLogin: React.FC = () => {
 
     try {
       const res = await axios.post(`${backend_api_url}/api/login`, { email, password });
-      if (res.data.token) {
-        login(res.data.token, res.data.role);
-        navigate("/");
-      } else {
+      if (res.data.token && res.data.user) {
+      const { token, role, user } = res.data;
+      login(token, role, { name: user.name, email: user.email });
+      navigate("/");
+    }else {
         setMessage("Invalid response from server.");
       }
     } catch (err: any) {
