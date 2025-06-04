@@ -22,9 +22,11 @@ import PWAInstallButton from "./components/PWAInstallButton";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
-
+   //* 👇 Floating PWA install button visible on all routes */}
+   // <PWAInstallButton />
   return (
     <>
+       
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -56,8 +58,10 @@ const App: React.FC = () => {
         </Route>
       </Routes>
 
-      {/* 👇 Floating PWA install button visible on all routes */}
+        {/* 👇 Floating PWA install button visible on all routes */}
       <PWAInstallButton />
+
+
     </>
   );
 };

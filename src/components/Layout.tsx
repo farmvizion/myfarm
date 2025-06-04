@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
+import PWAInstallButton from "./PWAInstallButton";
 
 const Layout = () => {
   const { i18n } = useTranslation();
@@ -22,29 +23,31 @@ const Layout = () => {
       <header className="bg-green-700 py-6 flex justify-center items-center">
         <img src={Logo} alt="Farmvizion Logo" className="h-20 w-20 object-contain" />
       </header>
+      {/* Floating Language Selector */}
+<div className="fixed top-4 right-4 z-50">
+  <select
+    value={i18n.language}
+    onChange={(e) => i18n.changeLanguage(e.target.value)}
+    className="bg-white border text-gray-800 text-sm rounded px-3 py-1 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
+    aria-label="Select language"
+  >
+    <option value="en">🇺🇸 English</option>
+    <option value="de">🇩🇪 Deutsch</option>
+    <option value="hi">🇮🇳 हिन्दी</option>
+    <option value="te">🇮🇳 Telugu</option>
+    <option value="or">🇮🇳 Odia</option>
+  </select>
+</div>
 
       {/* Navbar below logo */}
       <nav className="bg-green-600 text-white p-4 flex justify-between items-center">
         {/* Title */}
         <div className="text-xl font-bold select-none">Farmvizion</div>
+        
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 items-center text-sm md:text-base">
-          {/* Language Selector - Desktop */}
-<div className="hidden md:block ml-4">
-<select
-  value={i18n.language}
-  onChange={(e) => i18n.changeLanguage(e.target.value)}
-  className="bg-white border text-gray-800 text-sm rounded px-3 py-1 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-  aria-label="Select language"
->
-  <option value="en">🇺🇸 English</option>
-  <option value="de">🇩🇪 Deutsch</option>
-  <option value="hi">🇮🇳 हिन्दी</option>
-  <option value="te">🇮🇳 Telugu</option>
-  <option value="or">🇮🇳 Odia</option>
-</select>
-</div>
+       
           <NavItem to="/" label="Home" />
           <NavItem to="/farmplan" label="My Farm" />
           <NavItem to="/about" label="About" />
@@ -108,27 +111,12 @@ const Layout = () => {
               <MobileNavItem to="/register" label="Register" onClick={() => setMobileMenuOpen(false)} />
             </>
           )}
-          {/* Language Selector - Mobile */}
-<li>
-<select
-  value={i18n.language}
-  onChange={(e) => i18n.changeLanguage(e.target.value)}
-  className="bg-white border text-gray-800 text-sm rounded px-3 py-1 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-  aria-label="Select language"
->
-  <option value="en">🇺🇸 English</option>
-  <option value="de">🇩🇪 Deutsch</option>
-  <option value="hi">🇮🇳 हिन्दी</option>
-  <option value="te">🇮🇳 Telugu</option>
-  <option value="or">🇮🇳 Odia</option>
-</select>
-</li>
-
+         
         </ul>
       )}
 
       {/* Page Content */}
-      <main className="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+      <main className="flex-grow w-full max-w-screen-xl mx-auto px-4 py-8">
         <Outlet />
       </main>
 

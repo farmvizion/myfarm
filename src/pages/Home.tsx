@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import MobileHero from "../assets/MobileHero.png";
 import DesktopHero from "../assets/DesktopHero.png";
 import { useTranslation } from "react-i18next";
+import PWAInstallButton from "../components/PWAInstallButton";
 
 const Home = () => {
   const { t, i18n } = useTranslation();
@@ -25,33 +26,27 @@ const Home = () => {
       
       {/* Hero Section */}
       
+<section className="relative w-full min-h-screen flex flex-col justify-between overflow-hidden">
+  {/* Background Image (Top Half Screen Height) */}
+  <div className="absolute top-0 left-0 w-full h-[50vh] z-0">
+    <img
+      src={backgroundImage}
+      alt={t("farmvizionOverview")}
+      className="w-full h-full object-cover object-bottom"
+      loading="lazy"
+    />
+  </div>
 
-      
-      <section className="relative w-full min-h-screen flex items-center justify-center text-center overflow-hidden">
-        {/* Background Image */}
-        <img
-          src={backgroundImage}
-          alt={t("farmvizionOverview")}
-          className="absolute inset-0 w-full h-full object-cover object-top z-0"
-          loading="lazy"
-        />
+  {/* Empty top half to allow background image to show */}
+  <div className="h-[50vh]"></div>
 
-        {/* Gradient side overlays */}
-        <div className="absolute left-0 top-0 h-full w-12 sm:w-16 bg-gradient-to-r from-white via-white/70 to-transparent z-10"></div>
-        <div className="absolute right-0 top-0 h-full w-12 sm:w-16 bg-gradient-to-l from-white via-white/70 to-transparent z-10"></div>
-
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black opacity-30 z-10"></div>
-
-        {/* Content */}
-        <div className="relative z-20 max-w-xl sm:max-w-3xl mx-auto px-4">
-          <p className="text-base sm:text-lg md:text-xl mb-6 font-medium text-white drop-shadow-md">
-            {t("titleText")}
-          </p>
-
-        
-        </div>
-      </section>
+  {/* Title Text in Bottom Half */}
+  <div className="relative z-20 max-w-xl sm:max-w-3xl mx-auto px-4 flex items-center justify-center h-[50vh] text-center">
+    <p className="text-base sm:text-lg md:text-xl font-medium text-green drop-shadow-md">
+      {t("titleText")}
+    </p>
+  </div>
+</section>
 
       {/* Features Section */}
       <section className="py-12 sm:py-16 px-4 bg-gray-50">

@@ -38,12 +38,12 @@ const PWAInstallButton = () => {
   if (!showInstall) return null;
 
   return (
-    <button
-      onClick={handleInstallClick}
-      className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition"
-    >
-      Install Farmvizion
-    </button>
+     <button
+    onClick={handleInstallClick}
+    className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700 transition"
+  >
+    Install Farmvizion
+  </button>
   );
 };
 
