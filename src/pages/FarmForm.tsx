@@ -208,7 +208,7 @@ const FarmForm: React.FC = () => {
   }, [weather, soilMoisture]);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-12 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-inner">
+<div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-12 bg-gradient-to-br from-green-50 to-green-100 rounded-xl sm:rounded-2xl shadow-inner">
       {success ? (
         <div className="bg-green-100 border border-green-400 text-green-800 px-6 py-4 rounded-lg shadow-md text-center text-xl font-medium">
           🎉 Congratulations! Your journey with Farmvizion has begun. Let's make this world a better place to live and grow.
