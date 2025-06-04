@@ -3,7 +3,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { isMobile } from "react-device-detect";
+//import { isMobile } from "react-device-detect";
 
 
 // Extend Navigator for userAgentData in TS
@@ -53,7 +53,7 @@ const GoogleLoginButton: React.FC = () => {
 
 
   // Desktop vs Android/other mobile
-  const forceRedirect = isMobile; // on Android or other phones, use redirect
+  //const forceRedirect = isMobile; // on Android or other phones, use redirect
 
 
    // If popup fails (desktop), send user to Login Selector
@@ -84,7 +84,7 @@ const GoogleLoginButton: React.FC = () => {
     }
   };
   
-
+  /*
   if (forceRedirect) {
     return (
       <div className="text-center">
@@ -100,6 +100,7 @@ const GoogleLoginButton: React.FC = () => {
       </div>
     );
   }
+   */ 
 
   return (
     <div className="text-center">
