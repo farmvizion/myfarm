@@ -5,6 +5,7 @@ import Logo from "../assets/fvtrans.png";
 import NatureBg from "../assets/nature.jpg";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
+import CountryCodeSelect from "../components/CountryCodeSelect";
 
 // Define interface for form data
 interface FormData {
@@ -36,18 +37,15 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
     name: "",
     email: "",
     phone: "",
-    countryCode: "+91", // Default to India
+    countryCode: "+49", // Default to India
     password: "",
     confirmPassword: "",
   });
 
-  const countryOptions = [
-    { code: "+91", flag: "🇮🇳", name: "India" },
-    { code: "+49", flag: "🇩🇪", name: "Germany" },
-    { code: "+1", flag: "🇺🇸", name: "USA" },
-    { code: "+31", flag: "🇳🇱", name: "Netherlands" },
-  ];
 
+  const handleCodeChange = (code: string) => {
+    setFormData((prev) => ({ ...prev, countryCode: code }));
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -87,7 +85,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
     if (loginResponse.data.token) {
       const { token, role, user } = loginResponse.data;
       login(token, role, user); // updated to pass the full user object
-      navigate("/");
+      navigate("/farmplan");
     }
   } catch (err: any) {
     console.error("Registration failed:", err.response?.data || err.message);
@@ -142,30 +140,19 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             required
           />
-          <div className="flex space-x-2">
-            <select
-              name="countryCode"
-              value={formData.countryCode}
-              onChange={handleChange}
-              className="w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              {countryOptions.map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.flag} {option.code}
-                </option>
-              ))}
-            </select>
-            <div className="flex w-2/3 space-x-2">
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Mobile Number (Optional)"
-                value={formData.phone}
-                onChange={handleChange}
-                className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            
-            </div>
+          <div className="flex flex-col space-y-4">
+                <CountryCodeSelect
+                  onChange={handleCodeChange}
+                  selectedValue={formData.countryCode}
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Mobile Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
           </div>
           <input
             type="password"
