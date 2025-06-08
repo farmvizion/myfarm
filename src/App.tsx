@@ -35,9 +35,9 @@ const App: React.FC = () => {
           <Route path="contact" element={<Contact />} />
           <Route path="signin" element={<SignInWrapper />} />
           <Route path="reset-password/:token" element={<ResetPassword />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/map" element={<Map />} />
+          <Route path="terms" element={<Terms />} />
+          <Route path="privacy" element={<Privacy />} />
+          <Route path="map" element={<Map />} />
           <Route path="register" element={<RegisterWrapper />} />
           <Route
             path="forgotpassword"
@@ -53,7 +53,7 @@ const App: React.FC = () => {
             <Route path="farmplan" element={<StylishForm />} />
           </Route>
           <Route element={<AdminRoute />}>
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="admin" element={<AdminDashboard />} />
           </Route>
         </Route>
       </Routes>

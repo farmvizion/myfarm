@@ -6,6 +6,7 @@ import NatureBg from "../assets/nature.jpg";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import CountryCodeSelect from "../components/CountryCodeSelect";
+import AlertBox from "../components/AlertBox";
 
 // Define interface for form data
 interface FormData {
@@ -32,6 +33,8 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
   const backend_api_url = import.meta.env.VITE_APP_API_URL;
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -85,7 +88,12 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
     if (loginResponse.data.token) {
       const { token, role, user } = loginResponse.data;
       login(token, role, user); // updated tpdmunich9872@gmail.como pass the full user object
-      navigate("/farmplan");
+      setSuccessMessage("🎉 Registration Successful!");
+       // Wait 2 seconds before navigating to allow alert to be seen
+      setTimeout(() => {
+        navigate("/farmplan"); // or wherever you want to go
+      }, 2000);
+
     }
   } catch (err: any) {
     console.error("Registration failed:", err.response?.data || err.message);
@@ -100,7 +108,10 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
       );
       setFormData({ ...formData, phone: "" });
     } 
+
+
   }
+
 };
 
 
@@ -118,6 +129,11 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
             Farmer Registration
           </h2>
         </div>
+        {successMessage && (
+          <div className="relative z-10 max-w-md w-full mb-4">
+            <AlertBox message={successMessage} onClose={() => setSuccessMessage("")} />
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input

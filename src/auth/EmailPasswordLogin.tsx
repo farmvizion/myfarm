@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import AlertBox from "../components/AlertBox";
 
 const EmailPasswordLogin: React.FC = () => {
   const backend_api_url = import.meta.env.VITE_APP_API_URL;
@@ -12,6 +13,8 @@ const EmailPasswordLogin: React.FC = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  
 
 
   const clickedForgotPassword = () => {
@@ -27,7 +30,11 @@ const EmailPasswordLogin: React.FC = () => {
       if (res.data.token && res.data.user) {
       const { token, role, user } = res.data;
       login(token, role, { name: user.name, email: user.email });
-      navigate("/");
+      setSuccessMessage("🎉 Login Successful!");
+        setTimeout(() => {
+        navigate("/farmplan"); // or wherever you want to go
+      }, 2000);
+
     }else {
         setMessage("Invalid response from server.");
       }
@@ -37,6 +44,12 @@ const EmailPasswordLogin: React.FC = () => {
   };
 
   return (
+    <div>   {successMessage && (
+              <div className="relative z-10 max-w-md w-full mb-4">
+                <AlertBox message={successMessage} onClose={() => setSuccessMessage("")} />
+              </div>
+            )}
+    
     <form onSubmit={handleSubmit} className="space-y-4">
       {message && <p className="text-red-600 text-sm text-center">{message}</p>}
       <input
@@ -82,6 +95,7 @@ const EmailPasswordLogin: React.FC = () => {
         </p>
 
     </form>
+  </div>
   );
 };
 
