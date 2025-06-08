@@ -3,6 +3,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import AlertBox from "../components/AlertBox";
 //import { isMobile } from "react-device-detect";
 
 
@@ -21,6 +22,8 @@ const GoogleLoginButton: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  
 
 
 
@@ -76,8 +79,10 @@ const GoogleLoginButton: React.FC = () => {
      if (res.data.token && res.data.user) {
       const { token, role, user } = res.data;
       login(token, role, { name: user.name, email: user.email });
-      navigate("/");
-    } else {
+      setSuccessMessage("🎉 Login Successful!");
+        setTimeout(() => {
+        navigate("/farmplan"); // or wherever you want to go
+      }, 2000);    } else {
         setMessage("Invalid response from Google sign-in.");
       }
     } catch (err: any) {
@@ -104,12 +109,18 @@ const GoogleLoginButton: React.FC = () => {
    */ 
 
   return (
+     <div>   {successMessage && (
+                  <div className="relative z-10 max-w-md w-full mb-4">
+                    <AlertBox message={successMessage} onClose={() => setSuccessMessage("")} />
+                  </div>
+                )}
     <div className="text-center">
       {message && <p className="text-red-600 mb-2">{message}</p>}
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={handleError}
       />
+    </div>
     </div>
   );
 };
