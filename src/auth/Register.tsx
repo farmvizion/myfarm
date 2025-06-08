@@ -84,7 +84,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
 
     if (loginResponse.data.token) {
       const { token, role, user } = loginResponse.data;
-      login(token, role, user); // updated to pass the full user object
+      login(token, role, user); // updated tpdmunich9872@gmail.como pass the full user object
       navigate("/farmplan");
     }
   } catch (err: any) {
@@ -99,9 +99,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
         "This phone number is already registered. Please enter a different number or generate a new one."
       );
       setFormData({ ...formData, phone: "" });
-    } else {
-      alert("Registration failed: " + (err.response?.data?.message || err.message));
-    }
+    } 
   }
 };
 
