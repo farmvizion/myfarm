@@ -19,6 +19,8 @@ import Map from "./pages/Map";
 
 // 👇 Add this import
 import PWAInstallButton from "./components/PWAInstallButton";
+import MyFarm from "./pages/MyFarm";
+import DeviceDashboard from "./pages/DeviceDashboard";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +52,8 @@ const App: React.FC = () => {
             }
           />
           <Route element={<ProtectedRoute />}>
-            <Route path="farmplan" element={<StylishForm />} />
+            <Route path="myfarm" element={<MyFarm />} />
+            <Route path="/dashboard/:id" element={<DeviceDashboard />} />
           </Route>
           <Route element={<AdminRoute />}>
             <Route path="admin" element={<AdminDashboard />} />

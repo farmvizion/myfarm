@@ -49,7 +49,7 @@ const Layout = () => {
         <ul className="hidden md:flex space-x-6 items-center text-sm md:text-base">
        
           <NavItem to="/" label="Home" />
-          <NavItem to="/farmplan" label="My Farm" />
+          <NavItem to="/myfarm" label="My Farm" />
           <NavItem to="/about" label="About" />
           <NavItem to="/team" label="Team" />
           <NavItem to="/contact" label="Contact" />
@@ -86,7 +86,7 @@ const Layout = () => {
       {mobileMenuOpen && (
         <ul className="bg-green-500 text-white flex flex-col space-y-2 p-4 md:hidden text-base">
           <MobileNavItem to="/" label="Home" onClick={() => setMobileMenuOpen(false)} />
-          <MobileNavItem to="/farmplan" label="My Farm" onClick={() => setMobileMenuOpen(false)} />
+          <MobileNavItem to="/myfarm" label="My Farm" onClick={() => setMobileMenuOpen(false)} />
           <MobileNavItem to="/about" label="About" onClick={() => setMobileMenuOpen(false)} />
           <MobileNavItem to="/team" label="Team" onClick={() => setMobileMenuOpen(false)} />
           <MobileNavItem to="/contact" label="Contact" onClick={() => setMobileMenuOpen(false)} />

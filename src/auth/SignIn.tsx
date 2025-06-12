@@ -69,7 +69,7 @@ const SignIn: React.FC<SignInProps> = ({ onToggle }) => {
     if (res.data.token && res.data.user) {
       const { token, role, user } = res.data;
       login(token, role, { name: user.name, email: user.email });
-      navigate("#/farmplan"); // Use absolute path to ensure navigation
+      navigate("#/myfarm"); // Use absolute path to ensure navigation
     } else {
       setMessage("Failed to authenticate via phone.");
     }
@@ -116,7 +116,7 @@ const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse) 
       const { token, role, user } = res.data;
       login(token, role, { name: user.name, email: user.email });
       
-      setTimeout(() => navigate("farmplan"), 0);
+      setTimeout(() => navigate("myfarm"), 0);
 
     } else {
       setMessage("Invalid response from server.");

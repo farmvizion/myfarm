@@ -91,7 +91,7 @@ const Register: React.FC<{ onToggle: () => void }> = ({ onToggle }) => {
       setSuccessMessage("🎉 Registration Successful!");
        // Wait 2 seconds before navigating to allow alert to be seen
       setTimeout(() => {
-        navigate("/farmplan"); // or wherever you want to go
+        navigate("/myfarm"); // or wherever you want to go
       }, 2000);
 
     }

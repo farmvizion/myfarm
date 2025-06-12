@@ -49,6 +49,7 @@ const UserAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
       const res = await axios.get(`${apiBaseUrl}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      //console.log(res);
       if (Array.isArray(res.data)) {
         setUsers(res.data);
       } else {
@@ -405,6 +406,7 @@ const UserAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
       <table className="w-full border-collapse" aria-label="User management table">
         <thead>
           <tr className="bg-gray-200">
+            <th className="border p-2">ID</th>
             <th className="border p-2">Email</th>
             <th className="border p-2">Name</th>
             <th className="border p-2">Mobile</th>
@@ -590,6 +592,7 @@ const UserAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
               </tr>
             ) : (
               <tr key={u.id} className="border">
+                <td className="border p-2">{u.id}</td>
                 <td className="border p-2">{u.email}</td>
                 <td className="border p-2">{u.name}</td>
                 <td className="border p-2">{u.phone || 'N/A'}</td>

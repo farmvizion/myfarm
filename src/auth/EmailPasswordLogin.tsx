@@ -32,7 +32,7 @@ const EmailPasswordLogin: React.FC = () => {
       login(token, role, { name: user.name, email: user.email });
       setSuccessMessage("🎉 Login Successful!");
         setTimeout(() => {
-        navigate("/farmplan"); // or wherever you want to go
+        navigate("/myfarm"); // or wherever you want to go
       }, 2000);
 
     }else {
