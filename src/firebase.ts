@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-console.log("Initialized app:", app);
+//console.log("Initialized app:", app);
 
 const auth = getAuth(app);
 //console.log("Initialized auth:", auth);
