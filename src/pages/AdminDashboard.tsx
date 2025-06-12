@@ -67,7 +67,7 @@ const AdminDashboard: React.FC = () => {
           <button
           onClick={() => setActiveTab('devices')}
           className={`px-4 py-2 rounded-lg ${
-            activeTab === 'queries'
+            activeTab === 'devices'
               ? 'bg-blue-500 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
