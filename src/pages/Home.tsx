@@ -3,9 +3,23 @@ import { Link } from "react-router-dom";
 import MobileHero from "../assets/MobileHero.png";
 import DesktopHero from "../assets/DesktopHero.png";
 
+const features = [
+  {
+    title: "AI Crop Diagnostics",
+    desc: "Identify plant diseases, pests, and health issues using AI-powered analysis of images and data.",
+  },
+  {
+    title: "IoT Sensor Integration",
+    desc: "Monitor soil, climate, and crop conditions in real-time with intelligent sensor networks.",
+  },
+  {
+    title: "Actionable Insights",
+    desc: "Receive alerts and treatment suggestions tailored to each crop and region.",
+  },
+];
+
 const Home = () => {
   const [backgroundImage, setBackgroundImage] = useState<string>(MobileHero);
-  const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
     const updateBackground = () => {
@@ -18,114 +32,87 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-white text-gray-800">
+    <div className="bg-black text-white font-sans">
+      {/* Nav */}
+      <header className="absolute top-0 left-0 w-full z-30 py-6 px-8 flex justify-between items-center bg-black/60 backdrop-blur-md">
+        <h1 className="text-2xl font-extrabold tracking-wide text-green-400">Farmvizion</h1>
+        <nav className="space-x-6 text-sm sm:text-base font-medium">
+          <Link to="/" className="hover:text-green-400 transition">Home</Link>
+          <Link to="/farm" className="hover:text-green-400 transition">My Farm</Link>
+          <Link to="/about" className="hover:text-green-400 transition">About</Link>
+          <Link to="/contact" className="hover:text-green-400 transition">Contact</Link>
+        </nav>
+      </header>
+
       {/* Hero Section */}
       <section className="relative w-full min-h-screen flex items-center justify-center text-center overflow-hidden">
-        {/* Background Image */}
         <img
           src={backgroundImage}
-          alt="Farmvizion Hero"
-          className="absolute inset-0 w-full h-full object-cover object-top z-0"
+          alt="Farmvizion smart farming background"
+          className="absolute inset-0 w-full h-full object-cover object-center z-0"
           loading="lazy"
         />
 
-        {/* Gradient side overlays */}
-        <div className="absolute left-0 top-0 h-full w-12 sm:w-16 bg-gradient-to-r from-white via-white/70 to-transparent z-10"></div>
-        <div className="absolute right-0 top-0 h-full w-12 sm:w-16 bg-gradient-to-l from-white via-white/70 to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
 
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black opacity-30 z-10"></div>
-
-        {/* Content */}
-        <div className="relative z-20 max-w-xl sm:max-w-3xl mx-auto px-4">
-          <p className="text-base sm:text-lg md:text-xl mb-6 font-medium text-white drop-shadow-md">
-            Farmvizion leverages AI and IoT to transform farms into intelligent
-            ecosystems—monitor, diagnose, and act in real time.
+        <div className="relative z-20 max-w-4xl px-6 mt-16">
+          <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight mb-6">
+            Revolutionize Agriculture with AI & IoT
+          </h1>
+          <p className="text-xl sm:text-2xl max-w-2xl mx-auto text-gray-200">
+            Farmvizion transforms traditional farms into intelligent ecosystems—observe, analyze, and act instantly.
           </p>
-
-          {!showVideo ? (
-            <button
-              onClick={() => setShowVideo(true)}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition focus:outline-none focus:ring-4 focus:ring-green-400"
-              aria-label="Watch Farmvizion video"
-            >
-              Watch Video
-            </button>
-          ) : (
-            <div className="relative aspect-video w-full max-w-xl mx-auto rounded-lg overflow-hidden shadow-lg mt-6">
-              <iframe
-                src="https://www.youtube.com/embed/br4h19Tv0ok?autoplay=1"
-                title="Farmvizion Overview"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              ></iframe>
-
-              {/* Close Button */}
-              <button
-                onClick={() => setShowVideo(false)}
-                className="absolute top-2 right-2 bg-white text-gray-800 rounded-full px-2 py-1 text-sm font-bold shadow hover:bg-red-500 hover:text-white transition focus:outline-none"
-                aria-label="Close video"
-              >
-                ✕
-              </button>
-            </div>
-          )}
+          <Link
+            to="/contact"
+            className="mt-8 inline-block bg-green-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-400 transition focus:ring-4 focus:ring-green-300"
+          >
+            Get Started
+          </Link>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-16 px-4 bg-gray-50">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-8">Why Farmvizion?</h2>
-          <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
-            {[
-              {
-                title: "AI Crop Diagnostics",
-                desc: "Identify plant diseases, pests, and health issues using AI-powered analysis of images and data.",
-              },
-              {
-                title: "IoT Sensor Integration",
-                desc: "Monitor soil, climate, and crop conditions in real-time with intelligent sensor networks.",
-              },
-              {
-                title: "Actionable Insights",
-                desc: "Receive alerts and treatment suggestions tailored to each crop and region.",
-              },
-            ].map((feature) => (
+      <section className="py-24 px-6 bg-neutral-900">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-16">Why Choose Farmvizion?</h2>
+          <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-3">
+            {features.map((feature) => (
               <div
                 key={feature.title}
-                className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition-transform transform hover:scale-105"
-                // Disable scale effect on small screens for better UX:
-                style={{ willChange: "transform" }}
+                className="bg-neutral-800 p-8 rounded-3xl shadow-xl hover:shadow-green-500/30 transition hover:-translate-y-1"
               >
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.desc}</p>
+                <h3 className="text-2xl font-semibold mb-3 text-green-400">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-300 leading-relaxed">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section
-        id="contact"
-        className="bg-green-600 text-white py-16 px-4 text-center"
-      >
-        <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-          Ready to revolutionize your farm?
-        </h2>
-        <p className="mb-6 max-w-md mx-auto">
-          Connect with us and bring intelligence to your fields.
-        </p>
-        <Link
-          to="/contact"
-          className="bg-white text-green-700 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition inline-block focus:outline-none focus:ring-4 focus:ring-white"
-        >
-          Contact Us
-        </Link>
+      {/* Call To Action Section */}
+      <section className="bg-green-600 text-white py-20 px-6 text-center">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+            Bring Intelligence to Your Fields
+          </h2>
+          <p className="mb-8 text-lg text-white/90">
+            Connect with us to explore the next era of precision agriculture.
+          </p>
+          <Link
+            to="/contact"
+            className="bg-black text-white font-semibold px-8 py-4 rounded-full hover:bg-gray-800 transition focus:outline-none focus:ring-4 focus:ring-white"
+          >
+            Contact Our Team
+          </Link>
+        </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-black border-t border-neutral-800 text-gray-400 py-6 text-center text-sm">
+        <p>© {new Date().getFullYear()} Farmvizion. Built with precision, powered by innovation.</p>
+      </footer>
     </div>
   );
 };
