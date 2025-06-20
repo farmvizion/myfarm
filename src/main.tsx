@@ -7,9 +7,11 @@ import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
 import "./index.css";
 import "./i18n";  // <-- add this import
+import 'flag-icons/css/flag-icons.min.css';
+
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
-console.log("Google Client ID:", googleClientId);
+//console.log("Google Client ID:", googleClientId);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

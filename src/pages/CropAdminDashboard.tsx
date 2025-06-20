@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 interface Crop {
   id: number;
-  name: string;
-  type: string | null;
-  season: string | null;
-  imageUrl: string | null;
-  unit: string | null;
-  pricePerUnit: number | null;
-  notes: string | null;
+  cropName: string;
+  cropType: string | null;
+  cropImageUrl: string | null;
 }
 
 interface Props {
@@ -25,13 +22,15 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
   const [newCrop, setNewCrop] = useState<Partial<Crop>>({});
   const [editingCrop, setEditingCrop] = useState<Crop | null>(null);
   const [cropImage, setCropImage] = useState<File | null>(null);
+  const { user, token } = useAuth();
+  const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
+  
 
   // Fetch Crops
   const fetchCrops = async () => {
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('authToken');
       if (!token) {
         setError('No authentication token found. Please log in.');
         return;
@@ -54,32 +53,24 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
   // Create Crop
   const createCrop = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newCrop.name) {
+    if (!newCrop.cropName) {
       setError('Crop name is required.');
       return;
     }
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('authToken');
       if (!token) {
         setError('No authentication token found. Please log in.');
         return;
       }
       const formData = new FormData();
-      formData.append('name', newCrop.name || '');
-      if (newCrop.type) formData.append('type', newCrop.type);
-      if (newCrop.season) formData.append('season', newCrop.season);
-      if (newCrop.unit) formData.append('unit', newCrop.unit);
-      if (newCrop.pricePerUnit)
-        formData.append('pricePerUnit', newCrop.pricePerUnit.toString());
-      if (newCrop.notes) formData.append('notes', newCrop.notes);
-      if (cropImage) formData.append('image', cropImage);
+      formData.append('cropName', newCrop.cropName || '');
+      if (newCrop.cropType) formData.append('cropType', newCrop.cropType);
+      if (newCrop.cropImageUrl) formData.append('cropImageUrl', newCrop.cropImageUrl);
       await axios.post(`${apiBaseUrl}/api/admin/crops`, formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
+          Authorization: `Bearer ${token}`},
       });
       setSuccess('Crop created successfully!');
       setNewCrop({});
@@ -95,31 +86,27 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
   // Update Crop
   const updateCrop = async (e: React.FormEvent, crop: Crop) => {
     e.preventDefault();
-    if (!crop.name) {
+    if (!crop.cropName) {
       setError('Crop name is required.');
       return;
     }
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('authToken');
       if (!token) {
         setError('No authentication token found. Please log in.');
         return;
       }
       const formData = new FormData();
-      formData.append('name', crop.name || '');
-      if (crop.type) formData.append('type', crop.type);
-      if (crop.season) formData.append('season', crop.season);
-      if (crop.unit) formData.append('unit', crop.unit);
-      if (crop.pricePerUnit)
-        formData.append('pricePerUnit', crop.pricePerUnit.toString());
-      if (crop.notes) formData.append('notes', crop.notes);
-      if (cropImage) formData.append('image', cropImage);
+    
+      formData.append('cropName', crop.cropName || '');
+      if (crop.cropType) formData.append('cropType', crop.cropType);
+      if (cropImage) formData.append('cropImageUrl', cropImage); // ✅ match backend
+
+
       await axios.patch(`${apiBaseUrl}/api/admin/crops/${crop.id}`, formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
         },
       });
       setSuccess('Crop updated successfully!');
@@ -185,9 +172,9 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
             <input
               id="crop-name"
               placeholder="Enter crop name"
-              value={newCrop.name || ''}
+              value={newCrop.cropName || ''}
               onChange={(e) =>
-                setNewCrop((prev) => ({ ...prev, name: e.target.value }))
+                setNewCrop((prev) => ({ ...prev, cropName: e.target.value }))
               }
               className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
@@ -203,69 +190,15 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
             <input
               id="crop-type"
               placeholder="Enter crop type"
-              value={newCrop.type || ''}
+              value={newCrop.cropType || ''}
               onChange={(e) =>
-                setNewCrop((prev) => ({ ...prev, type: e.target.value }))
+                setNewCrop((prev) => ({ ...prev, cropType: e.target.value }))
               }
               className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          <div>
-            <label
-              htmlFor="crop-season"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Season
-            </label>
-            <input
-              id="crop-season"
-              placeholder="Enter season"
-              value={newCrop.season || ''}
-              onChange={(e) =>
-                setNewCrop((prev) => ({ ...prev, season: e.target.value }))
-              }
-              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="crop-unit"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Unit
-            </label>
-            <input
-              id="crop-unit"
-              placeholder="Enter unit (e.g., kg)"
-              value={newCrop.unit || ''}
-              onChange={(e) =>
-                setNewCrop((prev) => ({ ...prev, unit: e.target.value }))
-              }
-              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="crop-price"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Price per Unit
-            </label>
-            <input
-              id="crop-price"
-              type="number"
-              step="0.01"
-              placeholder="Enter price per unit"
-              value={newCrop.pricePerUnit ?? ''}
-              onChange={(e) =>
-                setNewCrop((prev) => ({
-                  ...prev,
-                  pricePerUnit: e.target.value ? parseFloat(e.target.value) : null,
-                }))
-              }
-              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
+   
+       
           <div>
             <label
               htmlFor="crop-image"
@@ -282,24 +215,7 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
               className="w-full border border-gray-300 rounded-lg p-2"
             />
           </div>
-          <div className="md:col-span-2">
-            <label
-              htmlFor="crop-notes"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Notes
-            </label>
-            <textarea
-              id="crop-notes"
-              placeholder="Enter notes"
-              value={newCrop.notes || ''}
-              onChange={(e) =>
-                setNewCrop((prev) => ({ ...prev, notes: e.target.value }))
-              }
-              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              rows={4}
-            />
-          </div>
+   
           <div className="md:col-span-2">
             <button
               type="submit"
@@ -315,13 +231,10 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
       <table className="w-full border-collapse" aria-label="Crop management table">
         <thead>
           <tr className="bg-gray-200">
+            <th className="border p-2">ID</th>
             <th className="border p-2">Name</th>
             <th className="border p-2">Type</th>
-            <th className="border p-2">Season</th>
             <th className="border p-2">Image</th>
-            <th className="border p-2">Unit</th>
-            <th className="border p-2">Price/Unit</th>
-            <th className="border p-2">Notes</th>
             <th className="border p-2">Actions</th>
           </tr>
         </thead>
@@ -336,18 +249,18 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
                   >
                     <div>
                       <label
-                        htmlFor={`edit-crop-name-${c.id}`}
+                        htmlFor={`edit-crop-name-${c.cropName}`}
                         className="block text-sm font-medium text-gray-700 mb-1"
                       >
                         Name <span className="text-red-500">*</span>
                       </label>
                       <input
-                        id={`edit-crop-name-${c.id}`}
+                        id={`edit-crop-name-${c.cropName}`}
                         placeholder="Enter crop name"
-                        value={editingCrop.name || ''}
+                        value={editingCrop.cropName || ''}
                         onChange={(e) =>
                           setEditingCrop((prev) =>
-                            prev ? { ...prev, name: e.target.value } : prev
+                            prev ? { ...prev, cropName: e.target.value } : prev
                           )
                         }
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -356,89 +269,25 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
                     </div>
                     <div>
                       <label
-                        htmlFor={`edit-crop-type-${c.id}`}
+                        htmlFor={`edit-crop-type-${c.cropType}`}
                         className="block text-sm font-medium text-gray-700 mb-1"
                       >
                         Type
                       </label>
                       <input
-                        id={`edit-crop-type-${c.id}`}
+                        id={`edit-crop-type-${c.cropType}`}
                         placeholder="Enter crop type"
-                        value={editingCrop.type || ''}
+                        value={editingCrop.cropType || ''}
                         onChange={(e) =>
                           setEditingCrop((prev) =>
-                            prev ? { ...prev, type: e.target.value } : prev
+                            prev ? { ...prev, cropType: e.target.value } : prev
                           )
                         }
                         className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
-                    <div>
-                      <label
-                        htmlFor={`edit-crop-season-${c.id}`}
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Season
-                      </label>
-                      <input
-                        id={`edit-crop-season-${c.id}`}
-                        placeholder="Enter season"
-                        value={editingCrop.season || ''}
-                        onChange={(e) =>
-                          setEditingCrop((prev) =>
-                            prev ? { ...prev, season: e.target.value } : prev
-                          )
-                        }
-                        className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor={`edit-crop-unit-${c.id}`}
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Unit
-                      </label>
-                      <input
-                        id={`edit-crop-unit-${c.id}`}
-                        placeholder="Enter unit (e.g., kg)"
-                        value={editingCrop.unit || ''}
-                        onChange={(e) =>
-                          setEditingCrop((prev) =>
-                            prev ? { ...prev, unit: e.target.value } : prev
-                          )
-                        }
-                        className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor={`edit-crop-price-${c.id}`}
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Price per Unit
-                      </label>
-                      <input
-                        id={`edit-crop-price-${c.id}`}
-                        type="number"
-                        step="0.01"
-                        placeholder="Enter price per unit"
-                        value={editingCrop.pricePerUnit ?? ''}
-                        onChange={(e) =>
-                          setEditingCrop((prev) =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  pricePerUnit: e.target.value
-                                    ? parseFloat(e.target.value)
-                                    : null,
-                                }
-                              : prev
-                          )
-                        }
-                        className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      />
-                    </div>
+             
+               
                     <div>
                       <label
                         htmlFor={`edit-crop-image-${c.id}`}
@@ -454,34 +303,15 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
                         onChange={(e) => setCropImage(e.target.files?.[0] || null)}
                         className="w-full border border-gray-300 rounded-lg p-2"
                       />
-                      {editingCrop.imageUrl && (
+                      {editingCrop.cropImageUrl && (
                         <img
-                          src={`${apiBaseUrl}${editingCrop.imageUrl}`}
-                          alt={editingCrop.name}
+                          src={`${apiBaseUrl}${editingCrop.cropImageUrl}`}
+                          alt={editingCrop.cropImageUrl}
                           className="mt-2 h-16 w-16 object-cover rounded"
                         />
                       )}
                     </div>
-                    <div className="md:col-span-2">
-                      <label
-                        htmlFor={`edit-crop-notes-${c.id}`}
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Notes
-                      </label>
-                      <textarea
-                        id={`edit-crop-notes-${c.id}`}
-                        placeholder="Enter notes"
-                        value={editingCrop.notes || ''}
-                        onChange={(e) =>
-                          setEditingCrop((prev) =>
-                            prev ? { ...prev, notes: e.target.value } : prev
-                          )
-                        }
-                        className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        rows={4}
-                      />
-                    </div>
+               
                     <div className="md:col-span-2 flex gap-2">
                       <button
                         type="submit"
@@ -507,25 +337,22 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
               </tr>
             ) : (
               <tr key={c.id} className="border">
-                <td className="border p-2">{c.name}</td>
-                <td className="border p-2">{c.type || ''}</td>
-                <td className="border p-2">{c.season || ''}</td>
+                <td className="border p-2">{c.id}</td>
+                <td className="border p-2">{c.cropName}</td>
+                <td className="border p-2">{c.cropType || ''}</td>
                 <td className="border p-2">
-                  {c.imageUrl ? (
-                    <img
-                      src={`${apiBaseUrl}${c.imageUrl}`}
-                      alt={c.name}
-                      className="h-12 w-12 object-cover rounded"
+                  {c.cropImageUrl ? (
+                  <img
+                      src={`${apiBaseUrl}${c.cropImageUrl}`}
+                      alt={c.cropImageUrl}
+                      onClick={() => setModalImageUrl(`${apiBaseUrl}${c.cropImageUrl}`)}
+                      className="h-12 w-12 object-cover rounded cursor-pointer"
                     />
                   ) : (
                     'No image'
                   )}
                 </td>
-                <td className="border p-2">{c.unit || ''}</td>
-                <td className="border p-2">
-                  {c.pricePerUnit ? `$${c.pricePerUnit.toFixed(2)}` : ''}
-                </td>
-                <td className="border p-2">{c.notes || ''}</td>
+          
                 <td className="border p-2 flex gap-2">
                   <button
                     onClick={() => setEditingCrop(c)}
@@ -547,6 +374,30 @@ const CropAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading, 
           )}
         </tbody>
       </table>
+      {modalImageUrl && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+          onClick={() => setModalImageUrl(null)}
+        >
+          <div
+            className="bg-white p-4 rounded shadow-lg max-w-full max-h-full"
+            onClick={(e) => e.stopPropagation()} // prevents modal from closing on image click
+          >
+            <img
+              src={modalImageUrl}
+              alt="Full Size"
+              className="max-h-[80vh] max-w-[90vw] object-contain"
+            />
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              onClick={() => setModalImageUrl(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
     </>
   );
 };

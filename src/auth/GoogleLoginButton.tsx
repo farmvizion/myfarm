@@ -3,6 +3,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import AlertBox from "../components/AlertBox";
 //import { isMobile } from "react-device-detect";
 
 
@@ -21,6 +22,8 @@ const GoogleLoginButton: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
 
 
 
@@ -56,7 +59,7 @@ const GoogleLoginButton: React.FC = () => {
   //const forceRedirect = isMobile; // on Android or other phones, use redirect
 
 
-   // If popup fails (desktop), send user to Login Selector
+  // If popup fails (desktop), send user to Login Selector
   const handleError = () => {
     setMessage("Google Sign-in failed. Redirecting to other options...");
     navigate("/signin");
@@ -73,18 +76,22 @@ const GoogleLoginButton: React.FC = () => {
         credential: credentialResponse.credential,
       });
 
-     if (res.data.token && res.data.user) {
-      const { token, role, user } = res.data;
-      login(token, role, { name: user.name, email: user.email });
-      navigate("/");
-    } else {
+      if (res.data.token && res.data.user) {
+        const { token, role, user } = res.data;
+        login(token, role, { name: user.name, email: user.email });
+        //console.log("Login successful");
+        setSuccessMessage("🎉 Login Successful!");
+        setTimeout(() => {
+          navigate("/myfarm"); // or wherever you want to go
+        }, 2000);
+      } else {
         setMessage("Invalid response from Google sign-in.");
       }
     } catch (err: any) {
       setMessage(err.response?.data?.error || "Google Sign-in failed. Try again.");
     }
   };
-  
+
   /*
   if (forceRedirect) {
     return (
@@ -101,15 +108,21 @@ const GoogleLoginButton: React.FC = () => {
       </div>
     );
   }
-   */ 
+   */
 
   return (
-    <div className="text-center">
-      {message && <p className="text-red-600 mb-2">{message}</p>}
-      <GoogleLogin
-        onSuccess={handleSuccess}
-        onError={handleError}
-      />
+    <div>   {successMessage && (
+      <div className="relative z-10 max-w-md w-full mb-4">
+        <AlertBox message={successMessage} onClose={() => setSuccessMessage("")} />
+      </div>
+    )}
+      <div className="text-center">
+        {message && <p className="text-red-600 mb-2">{message}</p>}
+        <GoogleLogin
+          onSuccess={handleSuccess}
+          onError={handleError}
+        />
+      </div>
     </div>
   );
 };
