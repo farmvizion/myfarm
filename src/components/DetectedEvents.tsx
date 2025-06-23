@@ -14,7 +14,7 @@ interface DetectedEventsProps {
   apiKey: string
 }
 
-  const backendHost = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
+const backendHost = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
 
 async function deleteDetection(id: number) {
   const res = await fetch(`${backendHost}/api/delete/detected/${id}`, { method: 'DELETE' })
@@ -27,7 +27,6 @@ async function deleteAllDetections() {
 }
 
 export default function DetectedEvents({ deviceId, apiKey }: DetectedEventsProps) {
-  const apiKeyTemp = "7a2b1c6c-9978-4775-9a39-58184dcca61d"
 
   const [detections, setDetections] = useState<DetectionEvent[]>([])
   const [loading, setLoading] = useState(true)
@@ -45,28 +44,28 @@ export default function DetectedEvents({ deviceId, apiKey }: DetectedEventsProps
   }
 
 
- useEffect(() => {
-  fetch(`${backendHost}/api/edge/get/detected`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-device-id': deviceId,
-      'x-api-key': apiKeyTemp
-    }
-  })
-    .then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
+  useEffect(() => {
+    fetch(`${backendHost}/api/edge/get/detected`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-device-id': deviceId,
+        'x-api-key': apiKey
+      }
     })
-    .then(data => {
-      setDetections(data);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error(err);
-      setLoading(false);
-    });
-}, [deviceId, apiKeyTemp]);
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        setDetections(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [deviceId, apiKey]);
 
   if (loading) {
     return (

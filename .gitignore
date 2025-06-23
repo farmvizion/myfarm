@@ -9,7 +9,19 @@ lerna-debug.log*
 
 node_modules
 *.local
-
+# Ignore only media files inside myfarm/src/assets/
+myfarm/src/assets/*.jpg
+myfarm/src/assets/*.jpeg
+myfarm/src/assets/*.png
+myfarm/src/assets/*.svg
+myfarm/src/assets/*.ico
+myfarm/src/assets/*.webp
+myfarm/src/assets/*.gif
+myfarm/src/assets/*.mp4
+myfarm/src/assets/*.mp3
+myfarm/src/assets/*.wav
+myfarm/src/assets/*.mov
+myfarm/src/assets/*.avi
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
