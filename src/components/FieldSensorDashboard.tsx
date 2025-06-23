@@ -2,18 +2,22 @@ import  { useEffect, useState } from 'react'
 import SensorCard from './SensorCard'
 import { fetchLatestSensorData, type SensorData } from '../services/sensorApi'
 
+
+
+
 interface DashboardProps {
-  deviceId: string
+  deviceId: string,
+  apiKey:string
 }
 
-export default function Dashboard({ deviceId }: DashboardProps) {
+export default function FieldSensorDashboard({ deviceId, apiKey }: DashboardProps) {
   const [sensorData, setSensorData] = useState<SensorData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     setLoading(true)
-    fetchLatestSensorData(deviceId)
+    fetchLatestSensorData(deviceId,apiKey)
       .then((data) => {
         setSensorData(data)
         setError(null)

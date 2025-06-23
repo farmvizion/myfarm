@@ -9,19 +9,20 @@ import {
     Legend,
     Line,
 } from 'recharts'
-import { fetchSensorHistory } from '../services/sensorApi'
+import { fetchSensorHistory } from '../services/sensorApi';
 
 // ✅ Define prop type here
 type TimeSeriesChartProps = {
-    deviceId: string
+    deviceId: string;
+    apiKey:string;
 }
 
-export default function TimeSeriesChart({ deviceId }: TimeSeriesChartProps) {
+export default function TimeSeriesChart({ deviceId , apiKey  }: TimeSeriesChartProps) {
     const [timeSeriesData, setTimeSeriesData] = useState<any[]>([])
 
     useEffect(() => {
         async function load() {
-            const data = await fetchSensorHistory(deviceId)
+            const data = await fetchSensorHistory(deviceId, apiKey)
             setTimeSeriesData(data.map((entry: any) => ({
                 date: entry.timestamp.slice(0, 10),
                 temperature: entry.temperature,

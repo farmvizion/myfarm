@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react'
 
+
+
+interface VideoStreamProps {
+  deviceId: string,
+  apiKey: string
+}
+
 type DetectionEvent = {
   timestamp: string
   labels: string[]
@@ -7,16 +14,29 @@ type DetectionEvent = {
   clipPath: string
 }
 
-export default function VideoStream() {
+export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
+  const backendHost = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
+  const apiKeyTemp = "7a2b1c6c-9978-4775-9a39-58184dcca61d"
+
+
   const [detections, setDetections] = useState<DetectionEvent[]>([])
-
   useEffect(() => {
-    fetch('http://farmvizion-device.local:3000/api/get/detected')
-      .then(res => res.json())
-      .then(setDetections)
-      .catch(console.error)
-  }, [])
+    fetch(`${backendHost}/api/edge/get/detected`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-device-id': deviceId,  // make sure `deviceId` is defined in your component
+        'x-api-key': apiKeyTemp  // make sure `deviceId` is defined in your component
 
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then(setDetections)
+      .catch(console.error);
+  }, [deviceId]);
   const latest = detections[0]
 
   return (
@@ -31,14 +51,9 @@ export default function VideoStream() {
       </div>
       */}
 
-      <div className="flex-1 bg-black">
-        <img
-          src="http://farmvizion-device.local:8080/video_feed"
-          alt="Live Camera Feed"
-          className="w-full h-full object-contain"
-        />
-      </div>
-
+     <div className="flex-1 bg-black">
+ <iframe src="https://satellitemap.space/" width="800px" height="480px" frameborder="0" title="Starlink Satellite Map"></iframe>
+</div>
 
 
 
@@ -62,12 +77,12 @@ export default function VideoStream() {
               ))}
             </div>
             <img
-              src={`http://farmvizion-device.local:3000/${latest.snapshotPath}`}
+              src={`${backendHost}/${latest.snapshotPath}`}
               alt="Snapshot"
               className="w-full rounded mb-2"
             />
             <a
-              href={`http://farmvizion-device.local:3000/${latest.clipPath}`}
+              href={`${backendHost}/${latest.clipPath}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block text-sm text-green-700 underline"

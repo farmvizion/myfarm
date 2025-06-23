@@ -7,19 +7,28 @@ type DetectionEvent = {
   clipPath: string
 }
 
-const API_BASE = 'http://farmvizion-device.local:3000'
+
+
+interface DetectedEventsProps {
+  deviceId: string,
+  apiKey: string
+}
+
+  const backendHost = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
 
 async function deleteDetection(id: number) {
-  const res = await fetch(`${API_BASE}/api/delete/detected/${id}`, { method: 'DELETE' })
+  const res = await fetch(`${backendHost}/api/delete/detected/${id}`, { method: 'DELETE' })
   return await res.json()
 }
 
 async function deleteAllDetections() {
-  const res = await fetch(`${API_BASE}/api/delete/detected`, { method: 'DELETE' })
+  const res = await fetch(`${backendHost}/api/delete/detected`, { method: 'DELETE' })
   return await res.json()
 }
 
-export default function DetectedEvents() {
+export default function DetectedEvents({ deviceId, apiKey }: DetectedEventsProps) {
+  const apiKeyTemp = "7a2b1c6c-9978-4775-9a39-58184dcca61d"
+
   const [detections, setDetections] = useState<DetectionEvent[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -36,18 +45,28 @@ export default function DetectedEvents() {
   }
 
 
-  useEffect(() => {
-    fetch('http://farmvizion-device.local:3000/api/get/detected')
-      .then(res => res.json())
-      .then(data => {
-        setDetections(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Failed to fetch detection events:', err)
-        setLoading(false)
-      })
-  }, [])
+ useEffect(() => {
+  fetch(`${backendHost}/api/edge/get/detected`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-device-id': deviceId,
+      'x-api-key': apiKeyTemp
+    }
+  })
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      setDetections(data);
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error(err);
+      setLoading(false);
+    });
+}, [deviceId, apiKeyTemp]);
 
   if (loading) {
     return (
@@ -97,13 +116,13 @@ export default function DetectedEvents() {
             ))}
           </div>
           <img
-            src={`http://farmvizion-device.local:3000/${latest.snapshotPath}`}
+            src={`${backendHost}/${latest.snapshotPath}`}
             alt="Snapshot"
             className="w-full max-h-60 object-cover rounded-md"
           />
           {latest.clipPath && (
             <a
-              href={`http://farmvizion-device.local:3000/${latest.clipPath}`}
+              href={`${backendHost}/${latest.clipPath}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-green-700 underline mt-1 inline-block"
@@ -124,7 +143,7 @@ export default function DetectedEvents() {
               className="flex items-start gap-3 border border-green-100 rounded-md p-2 hover:bg-green-50"
             >
               <img
-                src={`http://farmvizion-device.local:3000/${event.snapshotPath}`}
+                src={`${backendHost}/${event.snapshotPath}`}
                 alt="Snap"
                 className="w-16 h-16 object-cover rounded-md"
               />
@@ -150,7 +169,7 @@ export default function DetectedEvents() {
                   ))}
                 </div>
                 <a
-                  href={`http://farmvizion-device.local:3000/${event.clipPath}`}
+                  href={`${backendHost}/${event.clipPath}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-green-700 underline mt-1"

@@ -18,6 +18,8 @@ const MyFarm: React.FC = () => {
   const [devices, setDevices] = useState<{id:number; deviceID: string; name?: string; status?: string; allocated?: string }[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [deviceID, setDeviceID] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  
   const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(null);
 
 
@@ -161,7 +163,7 @@ const MyFarm: React.FC = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ deviceID }),
+        body: JSON.stringify({ deviceID , apiKey }),
       });
 
       const data = await response.json();
@@ -209,6 +211,14 @@ const MyFarm: React.FC = () => {
               type="text"
               value={deviceID}
               onChange={(e) => setDeviceID(e.target.value)}
+              className="border p-2 w-full mb-2 rounded"
+            />
+            <label className="block mb-2 font-medium">Enter Key</label>
+
+              <input
+              type="text"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
               className="border p-2 w-full mb-2 rounded"
             />
             <div className="flex space-x-2">
