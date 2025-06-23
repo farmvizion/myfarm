@@ -26,7 +26,7 @@ export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
       headers: {
         'Content-Type': 'application/json',
         'x-device-id': deviceId,  // make sure `deviceId` is defined in your component
-        'x-api-key': apiKeyTemp  // make sure `deviceId` is defined in your component
+        'x-api-key': apiKey  // make sure `deviceId` is defined in your component
 
       }
     })
@@ -51,9 +51,9 @@ export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
       </div>
       */}
 
-     <div className="flex-1 bg-black">
- <iframe src="https://satellitemap.space/" width="800px" height="480px" frameborder="0" title="Starlink Satellite Map"></iframe>
-</div>
+      <div className="flex-1 bg-black">
+        <iframe src="https://satellitemap.space/" width="800px" height="480px" frameborder="0" title="Starlink Satellite Map"></iframe>
+      </div>
 
 
 
