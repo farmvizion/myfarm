@@ -17,6 +17,7 @@ export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
   const backendHost = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
   const [detections, setDetections] = useState<DetectionEvent[]>([]);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -38,10 +39,14 @@ export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
 
   const latest = detections[0];
 
-  const handlePlayWithSound = () => {
+  const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = false;
-      videoRef.current.play();
+      const newMutedState = !isMuted;
+      videoRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
+      if (!videoRef.current.paused) {
+        videoRef.current.play().catch(console.error); // play in case unmute doesn't trigger playback
+      }
     }
   };
 
@@ -56,15 +61,15 @@ export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
           height="480"
           loop
           autoPlay
-          muted
+          muted={isMuted}
           playsInline
           className="object-cover rounded"
         />
         <button
-          onClick={handlePlayWithSound}
+          onClick={toggleMute}
           className="mt-4 px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-600"
         >
-          🔊 Play with Sound
+          {isMuted ? '🔇 Unmute' : '🔊 Mute'}
         </button>
       </div>
 
