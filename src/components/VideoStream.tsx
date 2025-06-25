@@ -1,34 +1,32 @@
-import { useEffect, useState } from 'react'
-
-
+import { useEffect, useRef, useState } from 'react';
+import sunflowerVideo from '../assets/sunflower.mp4';
 
 interface VideoStreamProps {
-  deviceId: string,
-  apiKey: string
+  deviceId: string;
+  apiKey: string;
 }
 
 type DetectionEvent = {
-  timestamp: string
-  labels: string[]
-  snapshotPath: string
-  clipPath: string
-}
+  timestamp: string;
+  labels: string[];
+  snapshotPath: string;
+  clipPath: string;
+};
 
 export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
-  const backendHost = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
-  const apiKeyTemp = "7a2b1c6c-9978-4775-9a39-58184dcca61d"
+  const backendHost = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
+  const [detections, setDetections] = useState<DetectionEvent[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const [detections, setDetections] = useState<DetectionEvent[]>([])
   useEffect(() => {
     fetch(`${backendHost}/api/edge/get/detected`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-device-id': deviceId,  // make sure `deviceId` is defined in your component
-        'x-api-key': apiKey  // make sure `deviceId` is defined in your component
-
-      }
+        'x-device-id': deviceId,
+        'x-api-key': apiKey,
+      },
     })
       .then(res => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -36,26 +34,39 @@ export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
       })
       .then(setDetections)
       .catch(console.error);
-  }, [deviceId]);
-  const latest = detections[0]
+  }, [deviceId, apiKey]);
+
+  const latest = detections[0];
+
+  const handlePlayWithSound = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      videoRef.current.play();
+    }
+  };
 
   return (
-    <div className="flex w-full h-[calc(100vh-4rem)] overflow-hidden"> {/* Adjust height if needed */}
-
+    <div className="flex w-full h-[calc(100vh-4rem)] overflow-hidden">
       {/* Video View (Left side) */}
-      {/* Video View (Left side) 
-
-      <div className="flex-1 bg-black">
-        <TwitchIframeEmbed />
-
+      <div className="flex-1 bg-black flex flex-col items-center justify-center">
+        <video
+          ref={videoRef}
+          src={sunflowerVideo}
+          width="800"
+          height="480"
+          loop
+          autoPlay
+          muted
+          playsInline
+          className="object-cover rounded"
+        />
+        <button
+          onClick={handlePlayWithSound}
+          className="mt-4 px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-600"
+        >
+          🔊 Play with Sound
+        </button>
       </div>
-      */}
-
-      <div className="flex-1 bg-black">
-        <iframe src="https://satellitemap.space/" width="800px" height="480px" frameborder="0" title="Starlink Satellite Map"></iframe>
-      </div>
-
-
 
       {/* Detection Panel (Right side) */}
       <div className="w-[30%] max-w-[400px] h-full bg-white overflow-y-auto p-4 border-l border-green-300">
@@ -95,5 +106,5 @@ export default function VideoStream({ deviceId, apiKey }: VideoStreamProps) {
         )}
       </div>
     </div>
-  )
+  );
 }
