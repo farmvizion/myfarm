@@ -35,7 +35,7 @@ const DeviceDashboard: React.FC = () => {
   const [device, setDevice] = useState<DeviceData | null>(null);
   const { user, token } = useAuth();
   const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'Farm' | 'Vizion' | 'Live' | "History">('Farm');
+  const [activeTab, setActiveTab] = useState<'Farm' | 'Vizion' | 'Live' | "Detections">('Farm');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,13 +95,13 @@ const DeviceDashboard: React.FC = () => {
           Live
         </button>
             <button
-          className={`px-4 py-2 font-medium ${activeTab === 'History'
+          className={`px-4 py-2 font-medium ${activeTab === 'Detections'
               ? 'text-green-700 border-b-2 border-green-600'
               : 'text-gray-500 hover:text-green-600'
             }`}
-          onClick={() => setActiveTab('History')}
+          onClick={() => setActiveTab('Detections')}
         >
-          History
+          Detections
         </button>
       </div>
 
@@ -234,7 +234,7 @@ const DeviceDashboard: React.FC = () => {
         <p className="text-center text-gray-400 italic py-10">Device ID not available</p>
       ) : null}
 
- {activeTab === 'History' && device?.deviceID ? (
+ {activeTab === 'Detections' && device?.deviceID ? (
         <div className="text-center text-gray-500 text-lg py-10 italic">
           <section>
             <h2 className="text-xl font-semibold mb-4">Live View</h2>
@@ -244,7 +244,7 @@ const DeviceDashboard: React.FC = () => {
             </div>
           </section>
         </div>
-      ) : activeTab === 'History' ? (
+      ) : activeTab === 'Detections' ? (
         <p className="text-center text-gray-400 italic py-10">Device ID not available</p>
       ) : null}
 
