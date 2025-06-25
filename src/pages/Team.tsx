@@ -1,5 +1,5 @@
 import VedImage from "../assets/ved.png";
-import RajuImage from "../assets/raju.png";
+import SantoshiImage from "../assets/santoshi.jpeg";
 import PDImage from "../assets/pd.png";
 import SubratImage from "../assets/subrat.png";
 import JoachimImage from "../assets/joachim.jpg";
@@ -45,10 +45,10 @@ const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/priyabratadas/",
   },
   {
-    name: "Raju",
+    name: "Santoshi",
     role: "Head of product and project management",
     bio: "Brings 15+ yeas of experience in program management and delivery",
-    image: RajuImage,
+    image: SantoshiImage,
     linkedin: "https://www.linkedin.com/company/farmvizion.com/",
   },
   {
