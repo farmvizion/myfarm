@@ -167,7 +167,7 @@ const MyFarm: React.FC = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+      //console.log(data);
       if (!response.ok) throw new Error(data.error || "Linking failed");
 
       setMessage({ type: "success", text: "Device linked successfully" });

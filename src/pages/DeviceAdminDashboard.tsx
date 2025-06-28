@@ -49,7 +49,7 @@ const DeviceAdminDashboard: React.FC<Props> = ({ apiBaseUrl, loading, setLoading
       const res = await axios.get(`${apiBaseUrl}/api/admin/devices`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(res);
+      //console.log(res);
       if (Array.isArray(res.data)) {
         setDevices(res.data);
       } else {
